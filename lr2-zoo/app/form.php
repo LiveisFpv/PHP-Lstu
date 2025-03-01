@@ -21,7 +21,7 @@
         if (empty($animal_gender)) {
             $error = true;
             $message = $message . "Пол животного не может быть пустым.\n";
-        } elseif ($animal_gender != "М" || $animal_age != "Ж") {
+        } elseif ($animal_gender != "м" && $animal_gender != "ж") {
             $error = true;
             $message = $message . "Пол животного должен быть 'м' (мужской) или 'ж' (женский).\n";
         }
