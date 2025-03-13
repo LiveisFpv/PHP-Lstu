@@ -1,11 +1,11 @@
 <?php
     require "db.php";
 
-    $stmt = $pdo->query("SELECT * FROM users");
+    $stmt = $pdo->query("SELECT * FROM animal");
 
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    var_dump($users);
+    // var_dump($animals);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,20 +24,24 @@
     </style>
 </head>
 <body>
-    <h2>Список пользователей</h2>
+    <h2>Зоопарк у дома</h2>
     <table>
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>email</th>
-            <th>age</th>
+            <th>animal_id</th>
+            <th>animal_name</th>
+            <th>animal_gender</th>
+            <th>animal_age</th>
+            <th>animal_cage</th>
+            <th>animal_care</th>
         </tr>
-        <?php foreach ($users as $user): ?>
+        <?php foreach ($animals as $animal): ?>
             <tr>
-                <td><?= $user['id']?></td>
-                <td><?= $user['name']?></td>
-                <td><?= $user['email']?></td>
-                <td><?= $user['age']?></td>
+                <td><?= $animal['animal_id']?></td>
+                <td><?= $animal['animal_name']?></td>
+                <td><?= $animal['animal_gender']?></td>
+                <td><?= $animal['animal_age']?></td>
+                <td><?= $animal['animal_cage']?></td>
+                <td><?= $animal['animal_care']?></td>
             </tr>
         <?php endforeach;?>
     </table>
