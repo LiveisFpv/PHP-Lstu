@@ -14,10 +14,12 @@
     <script>
         window.onload = function() {
             let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;
-            if (message != ""){
+
+            if (message) {
                 alert(message);
             }
-            <?php $_SESSION["message"]="";?>
+
+            <?php $_SESSION["message"] = ""; ?>
         };
     </script>
     <form action="form.php" method="post" name="forms" id="forms" onclick="validate()">
