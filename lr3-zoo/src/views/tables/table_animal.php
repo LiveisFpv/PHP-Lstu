@@ -1,12 +1,3 @@
-<?php
-    require "db.php";
-
-    $stmt = $pdo->query("SELECT * FROM animal");
-
-    $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // var_dump($animals);
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +23,6 @@
             <th>animal_gender</th>
             <th>animal_age</th>
             <th>animal_cage</th>
-            <th>animal_care</th>
         </tr>
         <?php foreach ($animals as $animal): ?>
             <tr>
@@ -41,7 +31,6 @@
                 <td><?= $animal['animal_gender']?></td>
                 <td><?= $animal['animal_age']?></td>
                 <td><?= $animal['animal_cage']?></td>
-                <td><?= $animal['animal_care']?></td>
             </tr>
         <?php endforeach;?>
     </table>

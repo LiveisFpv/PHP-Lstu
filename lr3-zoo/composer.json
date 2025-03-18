@@ -1,0 +1,15 @@
+{
+    "name": "live/lr3-zoo",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "LiveisFpv",
+            "email": "nasonovnicolai@gmail.com"
+        }
+    ],
+    "require": {}
+}
