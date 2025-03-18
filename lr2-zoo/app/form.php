@@ -13,7 +13,7 @@
             $error = true;
             $message = $message . "Название животного не может быть пустым.\n";
         }
-        elseif (!preg_match('/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/u', $animal_name)) {
+        elseif (!preg_match('/^(?!-)(?!.*--)(?!.*-$)[a-zA-Zа-яА-ЯёЁ\s\-]+$/u', $animal_name)) {
             $error = true;
             $message = $message . "Название животного может содержать только буквы, пробелы и дефисы.\n";
         }
@@ -21,22 +21,29 @@
         if (empty($animal_gender)) {
             $error = true;
             $message = $message . "Пол животного не может быть пустым.\n";
-        } elseif ($animal_gender != "м" && $animal_gender != "ж") {
+        } elseif (!in_array($animal_gender, ["м", "ж"])) {
             $error = true;
             $message = $message . "Пол животного должен быть 'м' (мужской) или 'ж' (женский).\n";
         }
-
-        if (!filter_var($cage, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1, "max_range" => 1000]])) {
+        if (!filter_var($animal_age, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1, "max_range" => 100]])) {
             $error = true;
-            $message = $message . "Номер клетки должен быть целым числом от 1 до 1000.\n";
+            $message = $message . "Возраст должен быть целым числом от 1 до 100.\n";
         }
 
-        if (empty($care)) {
+        if (!filter_var($cage, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1, "max_range" => 1000000000]])) {
             $error = true;
-            $message = $message . "Поле ухода не может быть пустым.\n";
-        } elseif (!preg_match('/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/u', $care)) {
+            $message = $message . "Номер клетки должен быть целым числом от 1 до 1000000000.\n";
+        }
+
+        $valid_care_options = [
+            "Давать орешки",
+            "Кормить овощами",
+            "Чистить клетку",
+            "Играть с животным"
+        ];
+        if (!in_array($care, $valid_care_options)) {
             $error = true;
-            $message = $message . "Поле ухода может содержать только буквы, пробелы и дефисы.\n";
+            $message = $message . "Выбран недопустимый вариант ухода.\n";
         }
         
 
