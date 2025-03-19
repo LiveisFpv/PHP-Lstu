@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зоо</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- <script src="/js/script.js" defer></script> -->
+    <script src="/js/lib/BasicValid.js" defer></script>
+    <script src="/js/validators/UserValid.js" defer></script>
 </head>
 <body>
     <script>
