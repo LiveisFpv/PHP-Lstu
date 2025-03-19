@@ -48,17 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
             clearError("cage");
         }
 
-        const careInput = document.getElementById("care");
-        if (careInput.value.trim() === "") {
-            showError("care", "Введите информацию об уходе");
-            isValid = false;
-        }else if(!/^(?!-)(?!.*--)(?!.*-$)[a-zA-Zа-яА-ЯёЁ\s\-]+$/u.test(careInput.value.trim())){
-            showError("care", "Уход не может содержать специальные символы и цифры начинаться или заканчиваться на '-' и не может состоять только из '-'")
-            isValid = false;
-        } else {
-            clearError("care");
-        }
-
         if (!isValid) {
             event.preventDefault();
         }

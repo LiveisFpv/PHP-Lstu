@@ -16,13 +16,14 @@ class Animal{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function addAnimal(string $animal_name, string $animal_gender, int $animal_age, int $animal_cage): void {
+    public function addAnimal(string $animal_name, string $animal_gender, int $animal_age, int $animal_cage): bool {
         $stmt = $this->pdo->prepare("INSERT INTO animals (animal_name, animal_gender, animal_age, animal_cage) VALUES (:name, :gender, :age, :cage)");
-        $stmt->execute([
+        $success = $stmt->execute([
             ':name' => $animal_name,
             ':gender' => $animal_gender,
             ':age' => $animal_age,
             ':cage' => $animal_cage,
         ]);
+        return $success;
     }
 }

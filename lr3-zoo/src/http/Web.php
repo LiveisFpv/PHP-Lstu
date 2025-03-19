@@ -9,6 +9,7 @@
     
     $animals = new AnimalController();
     $router->get('/animals', [$animals, 'index']);
+    $router->get('/animals/create', [$animals, 'form']);
     $router->post('/animals/create', [$animals, 'create']);
 
     $router->resolve();

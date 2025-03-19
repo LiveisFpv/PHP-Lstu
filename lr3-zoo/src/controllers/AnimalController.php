@@ -13,19 +13,22 @@
             $animals = $this->repository->getAll();
             include __DIR__ . '/../views/tables/table_animal.php';
         }
+        public function form(){
+            include __DIR__ . '/../views/forms/form_animal.php';
+        }
         public function create() {
             session_start();
 
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                header("Location: /index.php");
+                header("Location: /animals/create");
                 exit;
             }
     
             $message = AnimalValidator::validate($_POST);
     
-            if (!empty($errors)) {
+            if ($message!=='') {
                 $_SESSION["message"] = $message;
-                header("Location: /index.php");
+                header("Location: /animals/create");
                 exit;
             }
             
@@ -37,8 +40,8 @@
             $success = $this->repository->addAnimal(
                 $animal_name,
                 $animal_gender,
-                $animal_age,
-                $animal_cage,
+                (int)$animal_age,
+                (int)$animal_cage,
             );
     
             if ($success) {
@@ -47,7 +50,7 @@
                 $_SESSION["message"] = "Ошибка при добавлении в базу данных.";
             }
     
-            header("Location: /index.php");
+            header("Location: /animals/create");
             exit;
         }
     }

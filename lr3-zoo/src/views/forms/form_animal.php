@@ -6,9 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lr2</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript"  src="script.js" defer></script>
+    <title>Зоо</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/script.js" defer></script>
 </head>
 <body>
     <script>
@@ -20,7 +20,7 @@
             <?php $_SESSION["message"] = ""; ?>
         };
     </script>
-    <form action="form.php" method="post" name="forms" id="forms">
+    <form action="create" method="post" name="forms" id="forms">
         <h1>Главный зоопарк у дома</h1>
         <label for="animal-name">Название животного:</label>
         <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">
@@ -37,14 +37,6 @@
         <label for="cage">Клетка:</label>
         <input type="number" id="cage" name="cage" placeholder="10">
         <span id="cage-span"></span>
-        <label for="care">Уход:</label>
-        <select id="care" name="care">
-            <option value="Давать орешки">Давать орешки</option>
-            <option value="Кормить овощами">Кормить овощами</option>
-            <option value="Чистить клетку">Чистить клетку</option>
-            <option value="Играть с животным">Играть с животным</option>
-        </select>
-        <span id="care-span"></span>
         <input type="submit" value="Отправить">
     </form>
 </body>

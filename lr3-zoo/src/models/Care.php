@@ -16,12 +16,13 @@ class Care{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function addCare(string $care_type, string $animal_name): void {
+    public function addCare(string $care_type, string $animal_name): bool {
         $stmt = $this->pdo->prepare("INSERT INTO care (care_type, animal_name) VALUES (:care_type, :animal_name)");
-        $stmt->execute([
+        $success=$stmt->execute([
             'care_type' => $care_type,
             'animal_name' => $animal_name,
         ]);
+        return $success;
     }
 }
 
