@@ -17,14 +17,15 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addUser(string $user_name, string $user_email, string $user_password, string $user_role): void {
+    public function addUser(string $user_name, string $user_email, string $user_password, string $user_role): bool {
         $stmt = $this->pdo->prepare("INSERT INTO users (user_name, user_email, user_password, user_role) VALUES (:user_name, :user_email, :user_password, :user_role)");
-        $stmt->execute([
+        $success = $stmt->execute([
             'user_name' => $user_name,
             'user_email' => $user_email,
             'user_password' => password_hash($user_password, PASSWORD_DEFAULT),
             'user_role' => $user_role,
         ]);
+        return $success;
     }
 }
 ?>

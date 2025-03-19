@@ -1,0 +1,57 @@
+<?php
+    session_start();
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зоо</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- <script src="/js/script.js" defer></script> -->
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;
+            if (message) {
+                alert(message);
+            }
+            <?php $_SESSION["message"] = ""; ?>
+        };
+    </script>
+    <div class="form-container">
+        <h2>Регистрация</h2>
+        <form action="create" method="post" name="forms" id="forms">
+            <div class="form-group">
+            <label for="user-name">Имя пользователя:</label>
+            <input type="text" id="user-name" name="user-name" placeholder="Nickname">
+            <span id="user-name-span"></span>
+            </div>
+            
+            <div class="form-group">
+            <label for="user-email">Email:</label>
+            <input type="text" id="user-email" name="user-email" placeholder="test@mail.ru">
+            <span id="user-email-span"></span>
+            </div>
+            
+            <div class="form-group">
+            <label for="user-password">Пароль:</label>
+            <input type="text" id="user-password" name="user-password" placeholder="password">
+            <span id="user-password-span"></span>
+            </div>
+            
+            <div class="form-group">
+            <label for="user-role">Роль:</label>
+            <select id="user-role" name="user-role">
+                <option value="user">user</option>
+                <option value="admin">admin</option>
+            </select>
+            <span id="user-role-span"></span>
+            </div>
+            
+            <button type="submit">Отправить</button>
+        </form>
+    </div>
+</body>
+</html>
