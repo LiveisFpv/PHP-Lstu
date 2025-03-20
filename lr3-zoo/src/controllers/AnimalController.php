@@ -32,10 +32,10 @@
                 exit;
             }
             
-            $animal_name = trim($data['animal-name']?? '');
-            $animal_gender = trim($data['animal-gender']?? '');
-            $animal_age = trim($data['animal-age']?? '');
-            $animal_cage = trim($data['cage']?? '');
+            $animal_name = trim($_POST['animal-name']?? '');
+            $animal_gender = trim($_POST['animal-gender']?? '');
+            $animal_age = trim($_POST['animal-age']?? '');
+            $animal_cage = trim($_POST['cage']?? '');
 
             $success = $this->repository->addAnimal(
                 $animal_name,
@@ -50,6 +50,14 @@
                 $_SESSION["message"] = "Ошибка при добавлении в базу данных.";
             }
     
+            header("Location: /animals/create");
+            exit;
+        }
+        public function import(){
+            session_start();
+            $path=__DIR__ ."/../csv/data.csv";
+            $this->repository->import($path);
+            $_SESSION["message"] = "Данные считаны";
             header("Location: /animals/create");
             exit;
         }

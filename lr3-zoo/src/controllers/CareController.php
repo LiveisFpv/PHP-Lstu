@@ -23,8 +23,7 @@
                 exit;
             }
             $message = CareValidator::validate($_POST);
-
-            if (!$message!=='') {
+            if ($message!=='') {
                 $_SESSION["message"] = $message;
                 header("Location: /cares/create");
                 exit;
@@ -32,14 +31,17 @@
             $care_type = trim($_POST['care-type']?? '');
             $animal_name = trim($_POST['animal-name'] ?? '');
 
-            $success = $this->repository->addCare($care_type,$animal_name);
+            $success = $this->repository->addCare(
+                $care_type,
+                $animal_name,
+            );
 
             if ($success) {
                 $_SESSION["message"] = "Уход успешно добавлен!";
             } else {
                 $_SESSION["message"] = "Ошибка при добавлении в базу данных.";
             }
-            header('Location: /cares/create');
+            header("Location: /cares/create");
             exit;
         }
     }

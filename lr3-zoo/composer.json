@@ -1,5 +1,5 @@
 {
-    "name": "live/lr3-zoo",
+    "name": "nason/lr3-zoo",
     "autoload": {
         "psr-4": {
             "src\\": "src/"
