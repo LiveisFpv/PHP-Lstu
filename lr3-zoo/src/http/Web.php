@@ -13,7 +13,6 @@
     $router->get('/animals', [$animals, 'index']);
     $router->get('/animals/create', [$animals, 'form']);
     $router->post('/animals/create', [$animals, 'create']);
-    $router->post('/animals/import', [$animals, 'import']);
 
     $cares = new CareController();
     $router->get('/cares', [$cares,'index']);

@@ -25,27 +25,32 @@
         <h2>Главный зоопарк у дома</h2>
         <form action="create" method="post" name="forms" id="forms">
             <div class="form-group">
-            <label for="animal-name">Название животного:</label>
-            <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">
-            <span id="animal-name-span"></span>
+                <label for="animal-name">Название животного:</label>
+                <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">
+                <span id="animal-name-span"></span>
             </div>
             <div class="form-group">
-            <label for="animal-gender">Пол животного:</label>
-            <select id="animal-gender" name="animal-gender">
-                <option value="м">м</option>
-                <option value="ж">ж</option>
-            </select>
-            <span id="animal-gender-span"></span>
+                <label for="animal-gender">Пол животного:</label>
+                <select id="animal-gender" name="animal-gender">
+                    <option value="м">м</option>
+                    <option value="ж">ж</option>
+                </select>
+                <span id="animal-gender-span"></span>
             </div>
             <div class="form-group">
-            <label for="animal-age">Возвраст животного:</label>
-            <input type="number" id="animal-age" name="animal-age" placeholder="10">
-            <span id="animal-age-span"></span>
+                <label for="animal-age">Возвраст животного:</label>
+                <input type="number" id="animal-age" name="animal-age" placeholder="10">
+                <span id="animal-age-span"></span>
             </div>
             <div class="form-group">
-            <label for="cage">Клетка:</label>
-            <input type="number" id="cage" name="cage" placeholder="10">
-            <span id="cage-span"></span>
+                <label for="cage">Клетка:</label>
+                <input type="number" id="cage" name="cage" placeholder="10">
+                <span id="cage-span"></span>
+            </div>
+            <div class="form-group">
+                <label for="csv-file">Либо загрузите CSV-файл:</label>
+                <input type="file" id="csv-file" name="csv-file" accept=".csv">
+                <span id="csv-file-span"></span>
             </div>
             <button type="submit">Отправить</button>
         </form>

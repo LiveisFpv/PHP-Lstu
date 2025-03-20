@@ -3,6 +3,7 @@
     
     use src\models\Animal;
     use src\services\validators\AnimalValidator;
+    use src\lib\files\Files;
 
     class AnimalController{
         private Animal $repository;
@@ -23,7 +24,16 @@
                 header("Location: /animals/create");
                 exit;
             }
-    
+            if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
+                $file = $_FILES['file'];
+
+                Files::save($file);
+
+                $this->import(__DIR__ ."/../uploads/data.csv");
+
+                header("Location: /animals/create");
+                exit;
+            }
             $message = AnimalValidator::validate($_POST);
     
             if ($message!=='') {
@@ -53,9 +63,7 @@
             header("Location: /animals/create");
             exit;
         }
-        public function import(){
-            session_start();
-            $path=__DIR__ ."/../csv/data.csv";
+        public function import($path){
             $this->repository->import($path);
             $_SESSION["message"] = "Данные считаны";
             header("Location: /animals/create");
