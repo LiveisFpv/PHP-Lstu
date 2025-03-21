@@ -11,6 +11,21 @@ class User {
     public function __construct() {
         $this->pdo = Database::connect();
     }
+    public function getFiltered($filter_name, $filter_role):array{
+        $sqlstat="SELECT * FROM users WHERE 1=1 ";
+        $params=[];
+        if ($filter_name !== ""){
+            $sqlstat .= "AND user_name=:name ";
+            $params[":name"]=$filter_name;
+        }
+        if ($filter_role !== ""){
+            $sqlstat .= "AND user_role=:role ";
+            $params[":role"]=$filter_role;
+        }
+        $stmt = $this->pdo->prepare($sqlstat);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getAll(): array {
         $stmt = $this->pdo->prepare("SELECT * FROM users");
         $stmt->execute();

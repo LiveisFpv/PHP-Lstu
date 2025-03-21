@@ -4,14 +4,28 @@
     use src\models\User;
     use src\services\validators\UserValidator;
     
+    use Twig\Environment;
+
+    use Twig\Loader\FilesystemLoader;
+
     class UserController{
         private User $repository;
+
+        private Environment $twig;
         public function __construct(){
             $this->repository = new User();
+            $loader = new FilesystemLoader(__DIR__ . '/../views');
+            $this->twig = new Environment($loader);
         }
         public function index(){
-            $users = $this->repository->getAll();
-            include __DIR__ . '/../views/tables/table_user.php';
+            $filter_name=trim($_GET["filter_name"] ?? "");
+            $filter_role=trim($_GET["filter_role"] ?? "");
+            $users = $this->repository->getFiltered($filter_name,$filter_role);
+            echo $this->twig->render('tables/table_user.twig',
+            ['users' => $users,
+            'selected_name' => $filter_name,
+            'selected_role' => $filter_role,
+            ]);
         }
         public function form(){
             include __DIR__ . '/../views/forms/form_user.php';

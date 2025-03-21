@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зоопарк у дома</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="table-container">
+        <h2>Зоопарк у дома</h2>
+
+        <form method="GET" action="">
+        <div class="form-group">
+            <label for="filter_gender">Фильтр по полу:</label>
+            <select name="filter_gender" id="filter_gender">
+                <option value="">Все</option>
+                <option value="м" {% if selected_gender == 'м' %}selected{% endif %}>Мужской</option>
+                <option value="ж" {% if selected_gender == 'ж' %}selected{% endif %}>Женский</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="filter_name">Фильтр по названию:</label>
+            <input type="text" name="filter_name" id="filter_name" value="{{ selected_name }}">
+        </div>
+            <button type="submit">Применить</button>
+        </form>
+        <br>
+        <br>
+        <table>
+            <tr>
+                <th>animal_id</th>
+                <th>animal_name</th>
+                <th>animal_gender</th>
+                <th>animal_age</th>
+                <th>animal_cage</th>
+            </tr>
+            {% for animal in animals %}
+                <tr>
+                    <td>{{ animal.animal_id }}</td>
+                    <td>{{ animal.animal_name }}</td>
+                    <td>{{ animal.animal_gender }}</td>
+                    <td>{{ animal.animal_age }}</td>
+                    <td>{{ animal.animal_cage }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Нет данных</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

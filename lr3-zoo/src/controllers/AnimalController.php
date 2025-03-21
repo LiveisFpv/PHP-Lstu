@@ -5,14 +5,28 @@
     use src\services\validators\AnimalValidator;
     use src\lib\files\Files;
 
+    use Twig\Environment;
+
+    use Twig\Loader\FilesystemLoader;
+
     class AnimalController{
         private Animal $repository;
+
+        private Environment $twig;
         public function __construct() {
             $this->repository = new Animal();
+            $loader = new FilesystemLoader(__DIR__ . '/../views');
+            $this->twig = new Environment($loader);
         }
         public function index() {
-            $animals = $this->repository->getAll();
-            include __DIR__ . '/../views/tables/table_animal.php';
+            $filter_gender=trim($_GET["filter_gender"] ?? "");
+            $filter_name=trim($_GET["filter_name"] ?? "");
+            $animals = $this->repository->getFiltered($filter_gender,$filter_name);
+            echo $this->twig->render('tables/table_animal.twig', 
+            ['animals' => $animals,
+            'selected_gender' => $filter_gender,
+            'selected_name' => $filter_name,
+            ]);
         }
         public function form(){
             include __DIR__ . '/../views/forms/form_animal.php';

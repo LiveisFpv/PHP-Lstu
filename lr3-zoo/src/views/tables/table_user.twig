@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Зоопарк у дома</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="table-container">
+        <h2>Пользователи</h2>
+
+        <form method="GET" action="">
+        <div class="form-group">
+            <label for="filter_role">Фильтр по роли:</label>
+            <select name="filter_role" id="filter_role">
+                <option value="">Все</option>
+                <option value="user" {% if selected_role == 'user' %}selected{% endif %}>user</option>
+                <option value="admin" {% if selected_role == 'admin' %}selected{% endif %}>admin</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="filter_name">Фильтр по имени:</label>
+            <input type="text" name="filter_name" id="filter_name" value="{{ selected_name }}">
+        </div>
+            <button type="submit">Применить</button>
+        </form>
+        <br>
+        <br>
+
+        <table>
+            <tr>
+                <th>user_id</th>
+                <th>user_name</th>
+                <th>user_email</th>
+                <th>user_password</th>
+                <th>user_role</th>
+            </tr>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.user_id}}</td>
+                    <td>{{ user.user_name }}</td>
+                    <td>{{ user.user_email }}</td>
+                    <td>{{ user.user_password }}</td>
+                    <td>{{ user.user_role }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Нет данных</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

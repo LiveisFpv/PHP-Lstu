@@ -4,14 +4,26 @@
     use src\models\Care;
     use src\services\validators\CareValidator;
 
+    use Twig\Environment;
+
+    use Twig\Loader\FilesystemLoader;
+
     class CareController{
         private Care $repository;
+        private Environment $twig;
         public function __construct() {
             $this->repository = new Care();
+            $loader = new FilesystemLoader(__DIR__ . '/../views');
+            $this->twig = new Environment($loader);
         }
         public function index(){
             $cares = $this->repository->getAll();
-            include __DIR__ . '/../views/tables/table_care.php';
+            $filter_name=trim($_GET["filter_name"] ?? "");
+            $cares = $this->repository->getFiltered($filter_name);
+            echo $this->twig->render('tables/table_care.twig', 
+            ['cares' => $cares,
+            'selected_name' => $filter_name,
+        ]);
         }
         public function form(){
             include __DIR__ . '/../views/forms/form_care.php';

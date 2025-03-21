@@ -16,6 +16,22 @@ class Animal{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getFiltered($filter_gender,$filter_name):array{
+        $sqlstat="SELECT * FROM animals WHERE 1=1 ";
+        $params=[];
+        if ($filter_name !== ""){
+            $sqlstat .= "AND animal_name=:name ";
+            $params[":name"]=$filter_name;
+        }
+        if ($filter_gender !== ""){
+            $sqlstat .= "AND animal_gender=:gender ";
+            $params[":gender"]=$filter_gender;
+        }
+        $stmt = $this->pdo->prepare($sqlstat);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function addAnimal(string $animal_name, string $animal_gender, int $animal_age, int $animal_cage): bool {
         $stmt = $this->pdo->prepare("INSERT INTO animals (animal_name, animal_gender, animal_age, animal_cage) VALUES (:name, :gender, :age, :cage)");
         $success = $stmt->execute([
