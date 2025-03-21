@@ -53,42 +53,17 @@ function validateCSVFile(file){
     const reader = new FileReader();
     let isValid = true;
 
-    reader.onload = function (e) {
-        const text = e.target.result;
-        const lines = text.split("\n");
+    // Проверка расширения и MIME-типа
+    if (!file.name.endsWith(".csv") || file.type !== "text/csv") {
+        showError("csv-file","Неверный формат файла! Выберите CSV.");
+        isValid=false
+    }
 
-        lines.forEach((line, index) => {
-            const fields = line.split(",");
-
-            if (fields.length !== 4) {
-                showError("csv-file", `Ошибка в строке ${index + 1}: неверное количество полей`);
-                isValid = false;
-                return;
-            }
-
-            const [name, gender, age, cage] = fields;
-
-            if (name.trim() === "" || !/^(?!-)(?!.*--)(?!.*-$)[a-zA-Zа-яА-ЯёЁ\s\-]+$/u.test(name.trim())) {
-                showError("csv-file", `Ошибка в строке ${index + 1}: неверное название животного`);
-                isValid = false;
-            }
-
-            if (!/^(м|ж)$/i.test(gender.trim())) {
-                showError("csv-file", `Ошибка в строке ${index + 1}: неверный пол животного`);
-                isValid = false;
-            }
-
-            if (isNaN(age) || age < 1 || age > 100) {
-                showError("csv-file", `Ошибка в строке ${index + 1}: неверный возраст животного`);
-                isValid = false;
-            }
-
-            if (isNaN(cage) || cage < 1 || cage > 1000000000) {
-                showError("csv-file", `Ошибка в строке ${index + 1}: неверный номер клетки`);
-                isValid = false;
-            }
-        });
-    };
-    reader.readAsText(file);
+    // Проверка размера (например, не больше 2MB)
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+        showError("csv-file","Файл слишком большой! Максимальный размер 2MB.");
+        isValid=false
+    }
     return isValid;
 }

@@ -23,7 +23,7 @@
     </script>
     <div class="form-container">
         <h2>Главный зоопарк у дома</h2>
-        <form action="create" method="post" name="forms" id="forms">
+        <form action="create" method="post" name="forms" id="forms" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="animal-name">Название животного:</label>
                 <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">

@@ -8,7 +8,7 @@
             $fileTmpPath = $file['tmp_name'];
             $fileSize = $file['size'];
             $fileType = $file['type'];
-            $uploadDir = __DIR__ . '/../uploads/';
+            $uploadDir = __DIR__ . '/../../uploads/';
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }

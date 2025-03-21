@@ -26,12 +26,16 @@ class Animal{
         ]);
         return $success;
     }
-    public function import(string $path): void{
+    public function import(string $path): bool{
         $file = fopen($path,"r");
-        while (($row = fgetcsv($file,1000,","))!=false) {
-            $stmt = $this->pdo->prepare("INSERT INTO animals (animal_name,animal_gender,animal_age,animal_cage) VALUES(?, ?, ?, ?)");
-            $stmt->execute([$row[0],$row[1],$row[2],$row[3]]);
+        if ($file){
+            while (($row = fgetcsv($file,1000,","))!=false) {
+                $stmt = $this->pdo->prepare("INSERT INTO animals (animal_name,animal_gender,animal_age,animal_cage) VALUES(?, ?, ?, ?)");
+                $stmt->execute([$row[0],$row[1],$row[2],$row[3]]);
+            }
+            fclose($file);
+            return true;
         }
-        fclose($file);
+        return false;
     }
 }
