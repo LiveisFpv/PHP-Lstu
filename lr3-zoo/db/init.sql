@@ -8,6 +8,22 @@ CREATE TABLE `care` (
     `animal_name` VARCHAR(255) UNIQUE
 );
 
+CREATE TABLE `users`(
+    `user_id` SERIAL PRIMARY KEY,
+    `user_name` VARCHAR(255) UNIQUE,
+    `user_email` VARCHAR(255) UNIQUE,
+    `user_password` VARCHAR(255) NOT NULL,
+    `user_role` VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE `tickets` (
+    `ticket_id` SERIAL PRIMARY KEY,
+    `ticket_time` TIME NOT NULL,
+    `ticket_cost` FLOAT NOT NULL,
+    `user_email` VARCHAR(255),
+    FOREIGN KEY (`user_email`) REFERENCES `users` (`user_email`)
+);
+
 CREATE TABLE `animals` (
     `animal_id` SERIAL PRIMARY KEY,
     `animal_name` VARCHAR(255) NOT NULL,
@@ -15,12 +31,4 @@ CREATE TABLE `animals` (
     `animal_age` INT NOT NULL,
     `animal_cage` INT NOT NULL,
     FOREIGN KEY (`animal_name`) REFERENCES `care` (`animal_name`)
-);
-
-CREATE TABLE `users`(
-    `user_id` SERIAL PRIMARY KEY,
-    `user_name` VARCHAR(255) UNIQUE,
-    `user_email` VARCHAR(255) UNIQUE,
-    `user_password` VARCHAR(255) NOT NULL,
-    `user_role` VARCHAR(255) NOT NULL
 );

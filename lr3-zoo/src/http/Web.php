@@ -6,6 +6,7 @@
     use src\http\Router;
     use src\controllers\AnimalController;
     use src\controllers\CareController;
+    use src\controllers\TicketController;
 
     $router = new Router();
     
@@ -24,6 +25,9 @@
     $router->get('/users/create', [$users,'form']);
     $router->post('/users/create', [$users,'create']);
 
+    $tickets = new TicketController();
+    $router->get('/tickets/create', [$tickets,'form']);
+    $router->post('/tickets/create', [$tickets,'create']);
 
     $router->resolve();
 ?>
