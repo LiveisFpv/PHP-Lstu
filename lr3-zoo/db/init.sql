@@ -18,7 +18,7 @@ CREATE TABLE `users`(
 
 CREATE TABLE `tickets` (
     `ticket_id` SERIAL PRIMARY KEY,
-    `ticket_time` TIME NOT NULL,
+    `ticket_time` VARCHAR(255) NOT NULL,
     `ticket_cost` FLOAT NOT NULL,
     `user_email` VARCHAR(255),
     FOREIGN KEY (`user_email`) REFERENCES `users` (`user_email`)

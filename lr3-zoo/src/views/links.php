@@ -8,6 +8,7 @@
             <a href="/animals">Таблица животных</a>
             <a href="/cares">Таблица ухода</a>
             <a href="/users">Таблица пользователей</a>
+            <a href="/tickets">Купленные билеты</a>
     </nav>
 </div>
 

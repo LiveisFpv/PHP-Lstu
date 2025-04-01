@@ -15,7 +15,12 @@ class TicketController {
         $this->twig = new Environment($loader);
         $this->repository = new Ticket();
     }
-
+    public function index() {
+        $tickets = $this->repository->getAll();
+        echo $this->twig->render('tables/table_ticket.twig', 
+        ['tickets' => $tickets,
+        ]);
+    }
     public function form() {
         include __DIR__ . '/../views/forms/form_ticket.php';
     }

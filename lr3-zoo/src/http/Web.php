@@ -33,6 +33,7 @@
 
     $tickets = new TicketController();
     $router->get('/tickets/create', [$tickets,'form']);
+    $router->get('/tickets', [$tickets,'index']);
     $router->post('/tickets/create', [$tickets,'create']);
 
     $open = new Web();

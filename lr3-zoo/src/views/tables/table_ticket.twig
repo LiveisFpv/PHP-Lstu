@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Покупка билетов</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/hamburger.js" defer></script>
+</head>
+<body>
+    {% include 'menu.twig' %}
+
+    <div class="table-container">
+        <h2>Билеты</h2>
+
+        <br><br>
+
+        <table>
+            <tr>
+                <th>ID билета</th>
+                <th>Время</th>
+                <th>Стоимость</th>
+                <th>Email пользователя</th>
+            </tr>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.ticket_id }}</td>
+                    <td>{{ ticket.ticket_time }}</td>
+                    <td>{{ ticket.ticket_cost }}</td>
+                    <td>{{ ticket.user_email }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Нет данных</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
