@@ -7,6 +7,12 @@
     use src\controllers\AnimalController;
     use src\controllers\CareController;
     use src\controllers\TicketController;
+    class Web{
+        public function main(){
+            include __DIR__ . '/../views/main.php';
+        }
+    }
+    
 
     $router = new Router();
     
@@ -29,5 +35,7 @@
     $router->get('/tickets/create', [$tickets,'form']);
     $router->post('/tickets/create', [$tickets,'create']);
 
+    $open = new Web();
+    $router->get('/', [$open, 'main']);
     $router->resolve();
 ?>

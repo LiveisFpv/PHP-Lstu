@@ -26,8 +26,10 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/lib/BasicValid.js" defer></script>
     <script src="/js/validators/TicketValid.js" defer></script>
+    <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
+<?php include __DIR__.'./../links.php'; ?>
     <script>
         window.onload = function() {
             let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;

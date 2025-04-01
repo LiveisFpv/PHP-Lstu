@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/lib/BasicValid.js" defer></script>
     <script src="/js/validators/AnimalValid.js" defer></script>
+    <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
     <script>
@@ -21,6 +22,7 @@
             <?php $_SESSION["message"] = ""; ?>
         };
     </script>
+    <?php include __DIR__.'./../links.php'; ?>
     <div class="form-container">
         <h2>Главный зоопарк у дома</h2>
         <form action="create" method="post" name="forms" id="forms" enctype="multipart/form-data">
