@@ -6,6 +6,7 @@
     <title>Покупка билетов</title>
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/hamburger.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 </head>
 <body>
     {% include 'menu.twig' %}
@@ -21,6 +22,7 @@
                 <th>Время</th>
                 <th>Стоимость</th>
                 <th>Email пользователя</th>
+                <th>Qr code</th>
             </tr>
             {% for ticket in tickets %}
                 <tr>
@@ -28,13 +30,29 @@
                     <td>{{ ticket.ticket_time }}</td>
                     <td>{{ ticket.ticket_cost }}</td>
                     <td>{{ ticket.user_email }}</td>
+                    <td>
+                        <div class="qr-code" id="qr-{{ loop.index }}"
+                            data-text="TicketID:{{ ticket.ticket_id }}">
+                        </div>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4">Нет данных</td>
+                    <td colspan="5">Нет данных</td>
                 </tr>
             {% endfor %}
         </table>
     </div>
 </body>
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".qr-code").forEach(function (el) {
+            new QRCode(el, {
+                text: el.dataset.text,
+                width: 80,
+                height: 80,
+            });
+        });
+    });
+</script>

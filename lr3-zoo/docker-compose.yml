@@ -11,7 +11,7 @@ services:
       - db
   
   db:
-    restart: always
+    restart: on-failure
     image: mysql:8.4
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -24,7 +24,7 @@ services:
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    restart: always
+    restart: on-failure
     ports:
       - "8080:80"
     environment:
