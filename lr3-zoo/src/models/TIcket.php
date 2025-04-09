@@ -11,6 +11,13 @@ class Ticket{
     public function __construct(){
         $this->pdo = Database::connect();
     }
+    public function getUserTickets(string $email): array {
+        $stmt = $this->pdo->prepare("SELECT * FROM tickets WHERE user_email=:user_email");
+        $stmt->execute([
+            'user_email' => $email
+        ]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getAll(): array {
         $stmt = $this->pdo->prepare("SELECT * FROM tickets");
         $stmt->execute();

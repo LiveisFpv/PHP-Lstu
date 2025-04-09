@@ -42,5 +42,16 @@ class User {
         ]);
         return $success;
     }
+
+    public function authUser($user_email, string $user_password) {
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_email = :user_email");
+        $stmt->execute(['user_email' => $user_email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        // var_dump($user);
+        if (!$user || !password_verify($user_password, $user['user_password'])) {
+            return false;
+        }
+        return $user;
+    }
 }
 ?>

@@ -16,7 +16,15 @@ class TicketController {
         $this->repository = new Ticket();
     }
     public function index() {
-        $tickets = $this->repository->getAll();
+        // var_dump($_SESSION)
+        if (session_status() !== PHP_SESSION_NONE 
+        && $_SESSION["user"]["email"] !== '' 
+        && $_SESSION["user"]["role"] === 'user') {
+            $tickets = $this->repository->getUserTickets($_SESSION['user']['email']);
+        }
+        else{
+            $tickets = $this->repository->getAll();
+        }
         echo $this->twig->render('tables/table_ticket.twig', 
         ['tickets' => $tickets,
         ]);
@@ -26,7 +34,9 @@ class TicketController {
     }
 
     public function create() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             header("Location: /tickets/create");

@@ -29,7 +29,9 @@
             include __DIR__ . '/../views/forms/form_care.php';
         }
         public function create(){
-            session_start();
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 header("Location: /cares/create");
                 exit;

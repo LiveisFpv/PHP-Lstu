@@ -41,6 +41,28 @@
             }
             return $message;
         }
+
+        public static function validate_auth($data): string{
+            
+            $user_email = trim($data['user-email']?? '');
+            $user_password = trim($data['user-password']?? '');
+            
+            $message="";
+            
+            if(empty($user_email)){
+                $message = $message. "Email адрес не может быть пустым.\n";
+            }
+            elseif (!filter_var($user_email, FILTER_VALIDATE_EMAIL)) {
+                $message = $message. "Некорректный email адрес.\n";
+            }
+            if(empty($user_password)){
+                $message = $message. "Пароль не может быть пустым.\n";
+            }
+            elseif (strlen($user_password) < 8) {
+                $message = $message. "Пароль должен быть не менее 8 символов.\n";
+            }
+            return $message;
+        }
     }
 
 ?>
