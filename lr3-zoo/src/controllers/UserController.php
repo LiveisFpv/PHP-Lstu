@@ -18,6 +18,11 @@
             $this->twig = new Environment($loader);
         }
         public function index(){
+            if (session_status() !== PHP_SESSION_NONE 
+            && $_SESSION["user"]["role"] !== 'admin') {
+                header("Location: /");
+                exit;
+            }
             $filter_name=trim($_GET["filter_name"] ?? "");
             $filter_role=trim($_GET["filter_role"] ?? "");
             $users = $this->repository->getFiltered($filter_name,$filter_role);
@@ -25,13 +30,28 @@
             ['users' => $users,
             'selected_name' => $filter_name,
             'selected_role' => $filter_role,
+            'user' => $_SESSION['user'] ?? null,
             ]);
         }
         public function form(){
-            include __DIR__ . '/../views/forms/form_user.php';
+            if (session_status() === PHP_SESSION_NONE){
+                session_start();
+            }
+            $message = $_SESSION["message"] ?? '';
+            $_SESSION["message"] = '';
+            echo $this->twig->render('forms/form_user.twig', [
+                'message' => $message
+            ]);
         }
         public function auth_index(){
-            include __DIR__ . '/../views/forms/form_auth.php';
+            if (session_status() === PHP_SESSION_NONE){
+                session_start();
+            }
+            $message = $_SESSION["message"] ?? '';
+            $_SESSION["message"] = '';
+            echo $this->twig->render('forms/form_auth.twig', [
+                'message' => $message
+            ]);
         }
         public function auth(){
             if (session_status() === PHP_SESSION_NONE) {
@@ -60,7 +80,7 @@
                 $_SESSION['user'] = [
                     'id' => $user['user_id'] ?? null,
                     'email' => $user['user_email'] ?? '',
-                    'role' => $user['user_role'] ?? 'user'
+                    'role' => $user['user_role'] ?? 'user',
                 ];
                 // var_dump($_SESSION);
                 $_SESSION['message'] = "Авторизация успешна";

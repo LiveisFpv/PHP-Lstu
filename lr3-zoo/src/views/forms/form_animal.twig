@@ -1,8 +1,3 @@
-<?php
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,17 +12,16 @@
 <body>
     <script>
         window.onload = function() {
-            let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;
+            let message = {{ message ? message|json_encode|raw : '""' }};
             if (message) {
                 alert(message);
             }
-            <?php $_SESSION["message"] = ""; ?>
         };
     </script>
-    <?php include __DIR__.'./../links.php'; ?>
+    {% include 'menu.twig' %}
     <div class="form-container">
         <h2>Главный зоопарк у дома</h2>
-        <form action="create" method="post" name="forms" id="forms" enctype="multipart/form-data">
+        <form action="/animals/create" method="post" name="forms" id="forms" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="animal-name">Название животного:</label>
                 <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">
@@ -42,7 +36,7 @@
                 <span id="animal-gender-span"></span>
             </div>
             <div class="form-group">
-                <label for="animal-age">Возвраст животного:</label>
+                <label for="animal-age">Возраст животного:</label>
                 <input type="number" id="animal-age" name="animal-age" placeholder="10">
                 <span id="animal-age-span"></span>
             </div>

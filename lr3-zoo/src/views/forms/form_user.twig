@@ -1,8 +1,3 @@
-<?php
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,16 +10,15 @@
     <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
-<?php include __DIR__.'./../links.php'; ?>
     <script>
         window.onload = function() {
-            let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;
+            let message = {{ message ? message|json_encode|raw : '""' }};
             if (message) {
                 alert(message);
             }
-            <?php $_SESSION["message"] = ""; ?>
         };
     </script>
+    {% include 'menu.twig' %}
     <div class="form-container">
         <h2>Регистрация</h2>
         <form action="create" method="post" name="forms" id="forms">

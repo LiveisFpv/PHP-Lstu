@@ -26,10 +26,21 @@
             ['animals' => $animals,
             'selected_gender' => $filter_gender,
             'selected_name' => $filter_name,
+            'user' => $_SESSION['user'] ?? null,
             ]);
         }
         public function form(){
-            include __DIR__ . '/../views/forms/form_animal.php';
+            if (session_status() !== PHP_SESSION_NONE 
+            && $_SESSION["user"]["role"] !== 'admin') {
+                header("Location: /");
+                exit;
+            }
+            $message = $_SESSION["message"] ?? '';
+            $_SESSION["message"] = '';
+            echo $this->twig->render('forms/form_animal.twig', [
+                'message' => $message,
+                'user' => $_SESSION['user'] ?? null,
+            ]);
         }
         public function create() {
             if (session_status() === PHP_SESSION_NONE) {

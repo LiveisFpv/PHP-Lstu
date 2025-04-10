@@ -17,21 +17,34 @@
             $this->twig = new Environment($loader);
         }
         public function index(){
+            if (session_status() !== PHP_SESSION_NONE 
+            && $_SESSION["user"]["role"] !== 'admin') {
+                header("Location: /");
+                exit;
+            }
             $cares = $this->repository->getAll();
             $filter_name=trim($_GET["filter_name"] ?? "");
             $cares = $this->repository->getFiltered($filter_name);
             echo $this->twig->render('tables/table_care.twig', 
             ['cares' => $cares,
             'selected_name' => $filter_name,
-        ]);
+            'user' => $_SESSION['user'] ?? null,
+            ]);
         }
         public function form(){
-            include __DIR__ . '/../views/forms/form_care.php';
+            if (session_status() !== PHP_SESSION_NONE 
+            && $_SESSION["user"]["role"] !== 'admin') {
+                header("Location: /");
+                exit;
+            }
+            $message = $_SESSION["message"] ?? '';
+            $_SESSION["message"] = '';
+            echo $this->twig->render('forms/form_care.twig', [
+                'message' => $message,
+                'user' => $_SESSION['user'] ?? null,
+            ]);
         }
         public function create(){
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 header("Location: /cares/create");
                 exit;

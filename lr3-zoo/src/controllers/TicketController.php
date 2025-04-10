@@ -27,10 +27,28 @@ class TicketController {
         }
         echo $this->twig->render('tables/table_ticket.twig', 
         ['tickets' => $tickets,
+        'user' => $_SESSION['user'] ?? null,
         ]);
     }
     public function form() {
-        include __DIR__ . '/../views/forms/form_ticket.php';
+        $ticketCost = 500;
+        $message = $_SESSION["message"] ?? '';
+        $_SESSION["message"] = '';
+
+        $timeOptions = [];
+        $start = strtotime("09:00");
+        $end = strtotime("19:00");
+        $interval = 15 * 60;
+
+        for ($time = $start; $time <= $end; $time += $interval) {
+            $timeOptions[] = date("H:i", $time);
+        }
+        echo $this->twig->render('forms/form_ticket.twig', [
+            'ticketCost' => $ticketCost,
+            'message' => $message,
+            'timeOptions' => $timeOptions,
+            'user' => $_SESSION['user'] ?? null,
+        ]);
     }
 
     public function create() {

@@ -1,24 +1,3 @@
-<?php
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    $ticketCost = 500;
-
-    function generateTimeOptions() {
-        $start = strtotime("09:00");
-        $end = strtotime("19:00");
-        $interval = 15 * 60; 
-        $options = "";
-
-        for ($time = $start; $time <= $end; $time += $interval) {
-            $formattedTime = date("H:i", $time);
-            $options .= "<option value='$formattedTime'>$formattedTime</option>";
-        }
-
-        return $options;
-    }
-?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -31,31 +10,34 @@
     <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
-<?php include __DIR__.'./../links.php'; ?>
     <script>
         window.onload = function() {
-            let message = <?php echo json_encode($_SESSION["message"] ?? ""); ?>;
+            let message = {{ message|json_encode|raw }};
             if (message) {
                 alert(message);
             }
-            <?php $_SESSION["message"] = ""; ?>
         };
     </script>
+
+    {% include 'menu.twig' %}
+
     <div class="form-container">
         <h2>Покупка билета</h2>
         <form action="create" method="post" name="ticketForm" id="forms">
             <div class="form-group">
                 <label for="ticket_time">Время сеанса:</label>
                 <select id="ticket_time" name="ticket_time" required>
-                    <?= generateTimeOptions(); ?>
+                    {% for time in timeOptions %}
+                        <option value="{{ time }}">{{ time }}</option>
+                    {% endfor %}
                 </select>
                 <span id="ticket_time-span"></span>
             </div>
 
             <div class="form-group">
                 <label>Стоимость билета:</label>
-                <p><strong><?= $ticketCost; ?> ₽</strong></p>
-                <input type="hidden" name="ticket_cost" value="<?= $ticketCost; ?>">
+                <p><strong>{{ ticketCost }} ₽</strong></p>
+                <input type="hidden" name="ticket_cost" value="{{ ticketCost }}">
             </div>
 
             <div class="form-group">
