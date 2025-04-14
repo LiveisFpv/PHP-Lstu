@@ -36,6 +36,7 @@
                 <th>animal_gender</th>
                 <th>animal_age</th>
                 <th>animal_cage</th>
+                <th>care_type</th>
             </tr>
             {% for animal in animals %}
                 <tr>
@@ -44,16 +45,17 @@
                     <td>{{ animal.animal_gender }}</td>
                     <td>{{ animal.animal_age }}</td>
                     <td>{{ animal.animal_cage }}</td>
+                    <td>{{ animal.care_type }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">Нет данных</td>
+                    <td colspan="6">Нет данных</td>
                 </tr>
             {% endfor %}
-            <div class="form-group">
-                <a href="/animals/pdf">Скачать PDF</a>
-            </div>
         </table>
+        <div class="form-group">
+            <a href="/animals/pdf?filter_gender={{ selected_gender }}&filter_name={{ selected_name }}" target="_blank">Скачать PDF</a>
+        </div>
     </div>
 </body>
 </html>

@@ -60,6 +60,7 @@
             $pdf->Cell(30, 10, toWin1251('Пол'), 1);
             $pdf->Cell(30, 10, toWin1251('Возраст'), 1);
             $pdf->Cell(40, 10, toWin1251('Клетка'), 1);
+            $pdf->Cell(40, 10, toWin1251('Уход'), 1);
             $pdf->Ln();
         
             foreach ($animals as $animal) {
@@ -68,6 +69,7 @@
                 $pdf->Cell(30, 10, toWin1251($animal['animal_gender']), 1);
                 $pdf->Cell(30, 10, toWin1251($animal['animal_age']), 1);
                 $pdf->Cell(40, 10, toWin1251($animal['animal_cage']), 1);
+                $pdf->Cell(40, 10, toWin1251($animal['care_type']), 1);
                 $pdf->Ln();
             }
         

@@ -51,10 +51,10 @@
                     <td colspan="5">Нет данных</td>
                 </tr>
             {% endfor %}
-            <div class="form-group">
-                <a href="/users/pdf">Скачать PDF</a>
-            </div>
         </table>
+        <div class="form-group">
+            <a href="/users/pdf?filter_name={{ selected_name }}&filter_role={{ selected_role }}" target="_blank">Скачать PDF</a>
+        </div>
     </div>
 </body>
 </html>

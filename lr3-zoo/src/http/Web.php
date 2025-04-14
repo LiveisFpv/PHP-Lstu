@@ -36,6 +36,7 @@
     $router->get('/cares', [$cares,'index'], [AuthMiddleware::class]);
     $router->get('/cares/create', [$cares,'form'], [AuthMiddleware::class]);
     $router->post('/cares/create', [$cares,'create'], [AuthMiddleware::class]);
+    $router->get('/cares/pdf', [$cares, 'generatePdf'],[AuthMiddleware::class]);
 
     $users = new UserController();
     $router->get('/user/profile', [$users,'profile'], [AuthMiddleware::class]);

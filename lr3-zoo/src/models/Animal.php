@@ -18,7 +18,7 @@ class Animal{
     }
 
     public function getFiltered($filter_gender,$filter_name):array{
-        $sqlstat="SELECT * FROM animals WHERE 1=1 ";
+        $sqlstat="SELECT * FROM animals,care WHERE animals.animal_name=care.animal_name AND 1=1 ";
         $params=[];
         if ($filter_name !== ""){
             $sqlstat .= "AND animal_name=:name ";
