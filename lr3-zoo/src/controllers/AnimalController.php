@@ -9,6 +9,8 @@
 
     use Twig\Loader\FilesystemLoader;
 
+    use Fawno\FPDF\FawnoFPDF;
+
     class AnimalController{
         private Animal $repository;
 
@@ -29,6 +31,49 @@
             'user' => $_SESSION['user'] ?? null,
             ]);
         }
+
+        public function generatePdf(): void {
+        
+            if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+                header("Location: /");
+                exit;
+            }
+
+            function toWin1251($text): string {
+                return iconv('UTF-8', 'windows-1251//IGNORE', $text);
+            }
+        
+            $filter_name = trim($_GET["filter_name"] ?? "");
+            $filter_gender = trim($_GET["filter_gender"] ?? "");
+            $animals = $this->repository->getFiltered($filter_name, $filter_gender);
+        
+            $pdf = new FawnoFPDF();
+            $pdf->AddPage();
+            $pdf->AddFont('DejaVuSans', '', 'DejaVuSans.php');
+            $pdf->SetFont('DejaVuSans', '', 14);
+            $pdf->Cell(0, 10, toWin1251('Список животных'), 0, 1, 'C');
+            $pdf->Ln(10);
+        
+            $pdf->SetFont('DejaVuSans', '', 12);
+            $pdf->Cell(20, 10, toWin1251('ID'), 1);
+            $pdf->Cell(40, 10, toWin1251('Имя'), 1);
+            $pdf->Cell(30, 10, toWin1251('Пол'), 1);
+            $pdf->Cell(30, 10, toWin1251('Возраст'), 1);
+            $pdf->Cell(40, 10, toWin1251('Клетка'), 1);
+            $pdf->Ln();
+        
+            foreach ($animals as $animal) {
+                $pdf->Cell(20, 10, toWin1251($animal['animal_id']), 1);
+                $pdf->Cell(40, 10, toWin1251($animal['animal_name']), 1);
+                $pdf->Cell(30, 10, toWin1251($animal['animal_gender']), 1);
+                $pdf->Cell(30, 10, toWin1251($animal['animal_age']), 1);
+                $pdf->Cell(40, 10, toWin1251($animal['animal_cage']), 1);
+                $pdf->Ln();
+            }
+        
+            $pdf->Output('I', 'animals.pdf');
+        }
+
         public function form(){
             if (session_status() !== PHP_SESSION_NONE 
             && $_SESSION["user"]["role"] !== 'admin') {

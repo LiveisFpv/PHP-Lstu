@@ -30,6 +30,7 @@
     $router->get('/animals', [$animals, 'index']);
     $router->get('/animals/create', [$animals, 'form'], [AuthMiddleware::class]);
     $router->post('/animals/create', [$animals, 'create'], [AuthMiddleware::class]);
+    $router->get('/animals/pdf', [$animals, 'generatePdf'], [AuthMiddleware::class]);
 
     $cares = new CareController();
     $router->get('/cares', [$cares,'index'], [AuthMiddleware::class]);
@@ -44,6 +45,8 @@
     $router->get('/users/logout', [$users, 'logout'], [AuthMiddleware::class]);
     $router->get('/users/create', [$users,'form']);
     $router->post('/users/create', [$users,'create']);
+    $router->get('/users/pdf', [$users, 'generatePdf'], [AuthMiddleware::class]);
+
 
     $tickets = new TicketController();
     $router->get('/tickets/create', [$tickets,'form'], [AuthMiddleware::class]);
