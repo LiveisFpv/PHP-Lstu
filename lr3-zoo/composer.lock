@@ -4,8 +4,80 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a39365a032a0a6f0b5eb8a4f083708aa",
+    "content-hash": "5d1acf7e59447c66f2fe5548e083cf22",
     "packages": [
+        {
+            "name": "fawno/fpdf",
+            "version": "1.86.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fawno/FPDF.git",
+                "reference": "beb62b2f85ab2ca657590b022c74e29b0bd47ecd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fawno/FPDF/zipball/beb62b2f85ab2ca657590b022c74e29b0bd47ecd",
+                "reference": "beb62b2f85ab2ca657590b022c74e29b0bd47ecd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "ddn/sapp": "@stable",
+                "phpunit/phpunit": "@stable",
+                "setasign/fpdi": "@stable"
+            },
+            "suggest": {
+                "ext-openssl": "*",
+                "setasign/fpdi": "@stable"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FawnoFPDF": "Fawno\\FPDF\\FawnoFPDF",
+                        "FawnoPDFWrapper ": "Fawno\\FPDF\\PDFWrapper"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fawno\\FPDF\\": "src/",
+                    "FPDF\\Scripts\\": "scripts/"
+                },
+                "classmap": [
+                    "fpdf/fpdf.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Olivier Plathey",
+                    "email": "oliver@fpdf.org",
+                    "homepage": "http://fpdf.org/"
+                },
+                {
+                    "name": "Fernando Herrero",
+                    "homepage": "https://lab.fawno.com"
+                }
+            ],
+            "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
+            "homepage": "http://www.fpdf.org",
+            "keywords": [
+                "fpdf",
+                "pdf"
+            ],
+            "support": {
+                "issues": "https://github.com/fawno/FPDF/issues",
+                "source": "https://github.com/fawno/FPDF/tree/1.86.4"
+            },
+            "time": "2025-02-15T21:00:31+00:00"
+        },
         {
             "name": "symfony/deprecation-contracts",
             "version": "v3.5.1",

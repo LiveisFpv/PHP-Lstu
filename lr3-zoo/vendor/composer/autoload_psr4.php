@@ -10,4 +10,6 @@ return array(
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Ctype\\' => array($vendorDir . '/symfony/polyfill-ctype'),
+    'Fawno\\FPDF\\' => array($vendorDir . '/fawno/fpdf/src'),
+    'FPDF\\Scripts\\' => array($vendorDir . '/fawno/fpdf/scripts'),
 );

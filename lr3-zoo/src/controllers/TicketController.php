@@ -5,6 +5,7 @@ use src\models\Ticket;
 use src\services\validators\TicketValidator;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Fawno\FPDF\FawnoFPDF;
 
 class TicketController {
     private Environment $twig;
@@ -30,6 +31,48 @@ class TicketController {
         'user' => $_SESSION['user'] ?? null,
         ]);
     }
+
+    public function generatePdf(): void
+    {   
+        function toWin1251($text): string {
+            return iconv('UTF-8', 'windows-1251//IGNORE', $text);
+        }
+        if (session_status() !== PHP_SESSION_NONE 
+        && $_SESSION["user"]["email"] !== '' 
+        && $_SESSION["user"]["role"] === 'user') {
+            $tickets = $this->repository->getUserTickets($_SESSION['user']['email']);
+        }
+        else{
+            $tickets = $this->repository->getAll();
+        }
+        $pdf = new FawnoFPDF();
+        $pdf->AddPage();
+
+        $pdf->AddFont('DejaVuSans', '', 'DejaVuSans.php');
+        $pdf->SetFont('DejaVuSans', '', 14);
+
+        $pdf->Cell(0, 10, toWin1251('Список билетов'), 0, 1, 'C');
+
+        $pdf->Ln(5);
+
+        $pdf->SetFont('DejaVuSans', '', 12);
+        $pdf->Cell(30, 10, toWin1251('ID'), 1);
+        $pdf->Cell(40, 10, toWin1251('Время'), 1);
+        $pdf->Cell(30, 10, toWin1251('Стоимость'), 1);
+        $pdf->Cell(80, 10, toWin1251('Email'), 1);
+        $pdf->Ln();
+
+        foreach ($tickets as $ticket) {
+            $pdf->Cell(30, 10, $ticket['ticket_id'], 1);
+            $pdf->Cell(40, 10, toWin1251($ticket['ticket_time']), 1);
+            $pdf->Cell(30, 10, toWin1251($ticket['ticket_cost']), 1);
+            $pdf->Cell(80, 10, toWin1251($ticket['user_email']), 1);
+            $pdf->Ln();
+        }
+
+        $pdf->Output('I', 'tickets.pdf');
+    }
+
     public function form() {
         $ticketCost = 500;
         $message = $_SESSION["message"] ?? '';

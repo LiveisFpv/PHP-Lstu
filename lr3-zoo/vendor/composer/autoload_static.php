@@ -30,6 +30,11 @@ class ComposerStaticInitfd53d325c0038a75f8779f084c383c15
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
         ),
+        'F' => 
+        array (
+            'Fawno\\FPDF\\' => 11,
+            'FPDF\\Scripts\\' => 13,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -49,10 +54,19 @@ class ComposerStaticInitfd53d325c0038a75f8779f084c383c15
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Fawno\\FPDF\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fawno/fpdf/src',
+        ),
+        'FPDF\\Scripts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fawno/fpdf/scripts',
+        ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'FPDF' => __DIR__ . '/..' . '/fawno/fpdf/fpdf/fpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

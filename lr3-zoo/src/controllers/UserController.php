@@ -17,6 +17,15 @@
             $loader = new FilesystemLoader(__DIR__ . '/../views');
             $this->twig = new Environment($loader);
         }
+        public function profile(){
+            if (session_status() === PHP_SESSION_NONE){
+                header("Location: /");
+                exit;
+            }
+            echo $this->twig->render('profile.twig',
+            ['user' => $_SESSION['user'] ?? null,
+            ]);
+        }
         public function index(){
             if (session_status() !== PHP_SESSION_NONE 
             && $_SESSION["user"]["role"] !== 'admin') {
@@ -81,9 +90,9 @@
                     'id' => $user['user_id'] ?? null,
                     'email' => $user['user_email'] ?? '',
                     'role' => $user['user_role'] ?? 'user',
+                    'name' => $user['user_name'] ?? 'name'
                 ];
                 // var_dump($_SESSION);
-                $_SESSION['message'] = "Авторизация успешна";
             } else {
                 $_SESSION['message'] = "Неверный email или пароль";
                 header('Location: /users/auth');
