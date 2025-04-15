@@ -1,7 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("card_number").addEventListener("input", function (event) {
         let value = this.value.replace(/\D/g, ""); 
-        value = value.replace(/(.{4})/g, "$1 ").trim(); 
+        value = value.slice(0,16)
+        value = value.replace(/(.{4})/g, "$1 ").trim();
         this.value = value;
     });
 
@@ -12,6 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         this.value = value;
     });
+
+    document.getElementById("cvc").addEventListener("input", function (event){
+        let value = this.value
+        value = value.slice(0,3)
+        this.value = value
+    });
+
     document.getElementById("forms").addEventListener("submit", function (event) {
         
         let isValid = true;
@@ -48,9 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
             clearError("user_email");
         }
 
-        const cardNumber = document.getElementById("card_number");
+        let cardNumber = document.getElementById("card_number");
         cardNumber = cardNumber.value.replace(/\s/g, "");
-        if (!validateCardNumber(cardNumber.value.trim())) {
+        if (!validateCardNumber(cardNumber.trim())) {
             showError("card_number", "Некорректный номер карты");
             isValid = false;
         } else {

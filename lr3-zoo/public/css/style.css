@@ -9,19 +9,32 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     height: 100%;
 }
 
+main{
+    width: 100%;
+}
+
+footer{
+    width: 100%;
+}
+
 .form-container {
     background-color: #ffffff;
+    margin-top: 6rem;
+    margin-bottom: 2rem;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    animation-duration: 1.2s;
+    animation-name: formAppear;
 }
 
 .form-container h2 {
@@ -65,9 +78,10 @@ body {
     background-color: #007bff;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-size: 1.1rem;
     font-weight: bold;
+    text-align: center;
     transition: background-color 0.3s ease, transform 0.2s;
 }
 
@@ -87,27 +101,38 @@ button {
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s;
 }
 
 button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+button:active{
+    background-color: #003f80;
+    transform: scale(1);
 }
 
 .table-container {
     background-color: #ffffff;
     padding: 2rem;
+    margin-top: 6rem;
+    margin-bottom: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 1200px;
+    animation-duration: 1.2s;
+    animation-name: tableAppear;
 }
 
 .table-container h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-size: 1.5rem;
     color: #333;
     text-align: center;
@@ -117,12 +142,13 @@ table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
+    
 }
 
 table th,
 table td {
     padding: 0.75rem;
-    text-align: left;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 
@@ -143,48 +169,25 @@ table tr:nth-child(even) {
 table tr:nth-child(even):hover {
     background-color: #f1f1f1;
 }
-.hamburger-menu {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+
+@keyframes formAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.hamburger-btn {
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-}
-
-.hamburger-btn:hover {
-    background-color: #0056b3;
-}
-
-.menu {
-    position: absolute;
-    top: 3rem;
-    background-color: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    padding: 1rem;
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.menu a {
-    text-decoration: none;
-    color: #007bff;
-    font-size: 1rem;
-    padding: 0.5rem;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.menu a:hover {
-    background-color: #f1f1f1;
+@keyframes tableAppear {
+    from {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

@@ -5,11 +5,16 @@ namespace src\services\validators;
 class TicketValidator {
     public static function validate(array $data): string {
         $ticket_time = trim($data['ticket_time'] ?? '');
+        $ticket_date = trim($data['ticket_date'] ?? '');
         $ticket_cost = floatval($data['ticket_cost'] ?? 0);
         $user_email = trim($data['user_email'] ?? '');
         $message = "";
 
         // Валидация времени
+        if (empty($ticket_date)) {
+            $message .= "Дата билета не может быть пустой.\n";
+        }
+
         if (empty($ticket_time)) {
             $message .= "Время билета не может быть пустым.\n";
         } elseif (!preg_match('/^([01]?\d|2[0-3]):[0-5]\d$/', $ticket_time)) {

@@ -1,0 +1,176 @@
+.hero {
+    width: 100%;
+    background: linear-gradient(rgba(0, 123, 255, 0.8), rgba(0, 123, 255, 0.8)),
+                url('/images/zoo-bg.jpg') center/cover;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 1.5s ease-in;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    animation: slideUp 1s ease-out;
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    animation: slideUp 1s ease-out 0.3s;
+    animation-fill-mode: backwards;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #ffd700;
+    color: #003366;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.featured-animals {
+    padding: 4rem 2rem;
+    background-color: #fff;
+}
+
+.featured-animals h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #003366;
+    margin-bottom: 3rem;
+}
+
+.animals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.animal-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.animal-card:hover {
+    transform: translateY(-10px);
+}
+
+.animal-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.animal-card h3 {
+    color: #003366;
+    padding: 1rem;
+    text-align: center;
+}
+.animal-card p {
+    color: #003366;
+    padding: 1rem;
+    padding-top: 0.5rem;
+    text-align: center;
+}
+
+.schedule {
+    padding: 4rem 2rem;
+    background-color: #f4f4f9;
+}
+
+.schedule h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #003366;
+    margin-bottom: 3rem;
+}
+
+.schedule-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.time-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    min-width: 200px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.time {
+    font-size: 2.5rem;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.event {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.main-footer {
+    background: #003366;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 4rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .animals-grid {
+        grid-template-columns: 1fr;
+    }
+}

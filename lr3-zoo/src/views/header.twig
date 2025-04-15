@@ -1,0 +1,12 @@
+<link rel="stylesheet" href="/css/header.css">
+<header>
+    <a href="/">Главная</a>
+    {% if not user %}
+        <a href="/users/create">Регистрация</a>
+        <a href="/users/auth">Авторизация</a>
+    {% else %}
+        <a href="/user/profile">Профиль</a>
+        <a href="/users/logout">Выход</a>
+    {% endif %}
+</header>
+{% include 'menu.twig' %}

@@ -2,6 +2,7 @@
     namespace src\controllers;
     
     use src\models\Animal;
+    use src\models\Care;
     use src\services\validators\AnimalValidator;
     use src\lib\files\Files;
 
@@ -13,10 +14,12 @@
 
     class AnimalController{
         private Animal $repository;
+        private Care $care;
 
         private Environment $twig;
         public function __construct() {
             $this->repository = new Animal();
+            $this->care = new Care();
             $loader = new FilesystemLoader(__DIR__ . '/../views');
             $this->twig = new Environment($loader);
         }
@@ -82,11 +85,13 @@
                 header("Location: /");
                 exit;
             }
+            $animals = $this->care->getAll();
             $message = $_SESSION["message"] ?? '';
             $_SESSION["message"] = '';
             echo $this->twig->render('forms/form_animal.twig', [
                 'message' => $message,
                 'user' => $_SESSION['user'] ?? null,
+                'animals' => $animals,
             ]);
         }
         public function create() {

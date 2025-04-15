@@ -3,11 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Зоопарк-главная</title>
+    <title>Домашний Зоопарк «Синяя Панда»</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/hamburger.js" defer></script>
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">Добро пожаловать в мир дикой природы!</h1>
+                <p class="hero-subtitle">Более 50 видов животных в самом сердце города</p>
+                {% if not user %}
+                    <a href="/users/auth" class="cta-button">Авторизируйтесь и купите билет</a>
+                {% else %}
+                    <a href="/tickets/create" class="cta-button">Покупка билетов</a>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="featured-animals">
+            <h2>Наши звезды</h2>
+            <div class="animals-grid">
+                <div class="animal-card">
+                    <img src="/images/red-panda.jpg" alt="Красная панда">
+                    <h3>Рыжик</h3>
+                    <p>Малая панда • 3 года</p>
+                </div>
+                <div class="animal-card">
+                    <img src="/images/snow-leopard.jpg" alt="Снежный барс">
+                    <h3>Снежок</h3>
+                    <p>Снежный барс • 5 лет</p>
+                </div>
+                <div class="animal-card">
+                    <img src="/images/morskaya-svinka.jpg" alt="Лемур">
+                    <h3>Цезарь</h3>
+                    <p>Морская свинка • 2 года</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="schedule">
+            <h2>Расписание кормлений</h2>
+            <div class="schedule-cards">
+                <div class="time-card">
+                    <div class="time">11:00</div>
+                    <div class="event">Пингвины</div>
+                </div>
+                <div class="time-card">
+                    <div class="time">13:30</div>
+                    <div class="event">Большие кошки</div>
+                </div>
+                <div class="time-card">
+                    <div class="time">15:00</div>
+                    <div class="event">Лемуры</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2025 Зоопарк у дома «Синяя Панда»</p>
+    </footer>
 </body>
 </html>

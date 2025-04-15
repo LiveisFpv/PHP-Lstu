@@ -1,15 +1,16 @@
+<link rel="stylesheet" href="/css/menu.css">
+<script src="/js/hamburger.js" defer></script>
 <div class="hamburger-menu">
     <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
     <nav class="menu">
 
         {% if not user %}
-            <a href="/users/create">Регистрация</a>
-            <a href="/users/auth">Авторизация</a>
-        {% else %}
-            <a href="/user/profile">Профиль</a>
-            <a href="/users/logout">Выход</a>
-            <a href="/tickets/create">Покупка билетов</a>
+            <a href="/">Главная</a>
             <a href="/animals">Таблица животных</a>
+        {% else %}
+            <a href="/">Главная</a>
+            <a href="/tickets/create">Покупка билетов</a>
+            <a href="/animals">Животные зоопарка</a>
             <a href="/tickets">Купленные билеты</a>
 
             {% if user.role == 'admin' %}

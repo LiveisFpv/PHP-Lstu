@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/lib/BasicValid.js" defer></script>
     <script src="/js/validators/TicketValid.js" defer></script>
-    <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
     <script>
@@ -19,12 +18,24 @@
         };
     </script>
 
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
 
     <div class="form-container">
         <h2>Покупка билета</h2>
         <form action="create" method="post" name="ticketForm" id="forms">
+            
             <div class="form-group">
+                <label for="ticket_date">Дата сеанса:</label>
+                <input type="date" 
+                    id="ticket_date" 
+                    name="ticket_date" 
+                    required 
+                    min="{{ "now"|date('Y-m-d') }}">
+                <span id="ticket_date-span"></span>
+            </div>
+
+            <div class="form-group">
+
                 <label for="ticket_time">Время сеанса:</label>
                 <select id="ticket_time" name="ticket_time" required>
                     {% for time in timeOptions %}

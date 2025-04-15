@@ -1,0 +1,60 @@
+header {
+    background: linear-gradient(145deg, #003366, #007bff);
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    animation: slideDown 0.5s ease-out;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    padding: 0.8rem 1.2rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+header a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+header a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #ffd700;
+    transition: all 0.3s ease;
+}
+
+header a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

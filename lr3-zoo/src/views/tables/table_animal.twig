@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зоопарк у дома</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
     <div class="table-container">
         <h2>Зоопарк у дома</h2>
 
@@ -31,16 +30,16 @@
         <br>
         <table>
             <tr>
-                <th>animal_id</th>
-                <th>animal_name</th>
-                <th>animal_gender</th>
-                <th>animal_age</th>
-                <th>animal_cage</th>
-                <th>care_type</th>
+                {# <th>animal_id</th> #}
+                <th>Название животного</th>
+                <th>Пол животного</th>
+                <th>Возвраст</th>
+                <th>Номер клетки</th>
+                <th>Уход</th>
             </tr>
             {% for animal in animals %}
                 <tr>
-                    <td>{{ animal.animal_id }}</td>
+                    {# <td>{{ animal.animal_id }}</td> #}
                     <td>{{ animal.animal_name }}</td>
                     <td>{{ animal.animal_gender }}</td>
                     <td>{{ animal.animal_age }}</td>
@@ -49,7 +48,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6">Нет данных</td>
+                    <td colspan="5">Нет данных</td>
                 </tr>
             {% endfor %}
         </table>

@@ -18,13 +18,18 @@
             }
         };
     </script>
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
     <div class="form-container">
         <h2>Главный зоопарк у дома</h2>
         <form action="/animals/create" method="post" name="forms" id="forms" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="animal-name">Название животного:</label>
-                <input type="text" id="animal-name" name="animal-name" placeholder="Хомяк">
+                <select id="animal-name" name="animal-name" required>
+                    {% for animal in animals %}
+                        <option value="{{ animal.animal_name }}">{{ animal.animal_name }}</option>
+                    {% endfor %}
+                        <option disabled>Добавьте уход для добавления животного</option>
+                </select>
                 <span id="animal-name-span"></span>
             </div>
             <div class="form-group">

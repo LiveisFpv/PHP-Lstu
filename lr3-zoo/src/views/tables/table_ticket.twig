@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Покупка билетов</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/hamburger.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 </head>
 <body>
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
 
     <div class="table-container">
         <h2>Билеты</h2>
@@ -18,27 +17,35 @@
 
         <table>
             <tr>
-                <th>ID билета</th>
+                <th>Номер билета</th>
+                <th>Дата</th>
                 <th>Время</th>
                 <th>Стоимость</th>
                 <th>Email пользователя</th>
                 <th>Qr code</th>
+                <th>Состояние</th>
             </tr>
             {% for ticket in tickets %}
                 <tr>
                     <td>{{ ticket.ticket_id }}</td>
+                    <td>{{ ticket.ticket_date }}</td>
                     <td>{{ ticket.ticket_time }}</td>
                     <td>{{ ticket.ticket_cost }}</td>
                     <td>{{ ticket.user_email }}</td>
                     <td>
                         <div class="qr-code" id="qr-{{ loop.index }}"
-                            data-text="TicketID:{{ ticket.ticket_id }}">
+                            data-text="TicketID:{{ ticket.ticket_id }} TicketDate:{{ticket.ticket_date}} TicketTime:{{ticket.ticket_time}}">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <button id="button_{{ ticket.ticket_id }}">Отменить</button>
                         </div>
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">Нет данных</td>
+                    <td colspan="7">Нет данных</td>
                 </tr>
             {% endfor %}
         </table>

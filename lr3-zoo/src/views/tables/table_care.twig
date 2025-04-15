@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зоопарк у дома</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/js/hamburger.js" defer></script>
 </head>
 <body>
-    {% include 'menu.twig' %}
+    {% include 'header.twig' %}
     <div class="table-container">
         <h2>Уход за животными</h2>
 
@@ -23,19 +22,19 @@
         <br>
         <table>
             <tr>
-                <th>care_id</th>
-                <th>animal_name</th>
-                <th>care_type</th>
+                <!-- <th>care_id</th> -->
+                <th>название животного</th>
+                <th>Уход</th>
             </tr>
             {% for care in cares %}
                 <tr>
-                    <td>{{ care.care_id }}</td>
+                    <!-- <td>{{ care.care_id }}</td> -->
                     <td>{{ care.animal_name }}</td>
                     <td>{{ care.care_type}}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">Нет данных</td>
+                    <td colspan="2">Нет данных</td>
                 </tr>
             {% endfor %}
         </table>

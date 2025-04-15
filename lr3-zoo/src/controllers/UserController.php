@@ -153,7 +153,7 @@
             }
             session_unset();
             session_destroy();
-            header('Location: /users/auth');
+            header('Location: /');
             exit;
         }
         public function create(){

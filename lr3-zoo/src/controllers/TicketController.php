@@ -57,6 +57,7 @@ class TicketController {
 
         $pdf->SetFont('DejaVuSans', '', 12);
         $pdf->Cell(30, 10, toWin1251('ID'), 1);
+        $pdf->Cell(40, 10, toWin1251('Дата'), 1);
         $pdf->Cell(40, 10, toWin1251('Время'), 1);
         $pdf->Cell(30, 10, toWin1251('Стоимость'), 1);
         $pdf->Cell(80, 10, toWin1251('Email'), 1);
@@ -64,6 +65,7 @@ class TicketController {
 
         foreach ($tickets as $ticket) {
             $pdf->Cell(30, 10, $ticket['ticket_id'], 1);
+            $pdf->Cell(40, 10, toWin1251($ticket['ticket_date']), 1);
             $pdf->Cell(40, 10, toWin1251($ticket['ticket_time']), 1);
             $pdf->Cell(30, 10, toWin1251($ticket['ticket_cost']), 1);
             $pdf->Cell(80, 10, toWin1251($ticket['user_email']), 1);
@@ -111,11 +113,12 @@ class TicketController {
             exit;
         }
 
+        $ticket_date = trim($_POST['ticket_date'] ?? '');
         $ticket_time = trim($_POST['ticket_time'] ?? '');
         $ticket_cost = floatval($_POST['ticket_cost'] ?? 0);
         $user_email = trim($_POST['user_email'] ?? '');
 
-        $success = $this->repository->addTicket($ticket_time, $ticket_cost, $user_email);
+        $success = $this->repository->addTicket($ticket_date,$ticket_time, $ticket_cost, $user_email);
 
         if ($success) {
             $_SESSION["message"] = "Билет успешно куплен!";
