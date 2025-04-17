@@ -15,10 +15,15 @@
     border-radius: 5px;
     background-color: #007bff;
     color: white;
+    transition: transform 0.3s ease;
 }
 
 .hamburger-btn:hover {
     background-color: #0056b3;
+}
+
+.hamburger-btn.active {
+    transform: rotate(90deg);
 }
 
 .menu {
@@ -32,6 +37,7 @@
     flex-direction: column;
     gap: 0.5rem;
     border: #f1f1f1 2px solid;
+    animation: slideLeft 0.3s ease-out;
 }
 
 .menu a {
@@ -71,6 +77,17 @@
     }
     to {
         transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(-50%) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
         opacity: 1;
     }
 }

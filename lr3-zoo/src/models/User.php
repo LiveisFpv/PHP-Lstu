@@ -43,6 +43,22 @@ class User {
         return $success;
     }
 
+    public function updateUser(int $user_id, string $user_name, string $user_email, string $user_role): bool {
+        $stmt = $this->pdo->prepare(
+            "UPDATE users 
+            SET user_name=:user_name,
+            user_email=:user_email,
+            user_role=:user_role
+            WHERE user_id=:user_id");
+        $success = $stmt->execute([
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'user_email' => $user_email,
+            'user_role' => $user_role,
+        ]);
+        return $success;
+    }
+
     public function authUser($user_email, string $user_password) {
         $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_email = :user_email");
         $stmt->execute(['user_email' => $user_email]);

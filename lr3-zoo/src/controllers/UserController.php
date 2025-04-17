@@ -193,5 +193,42 @@
             header('Location: /users/create');
             exit;
         }
+
+        public function update(){
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+                header("Location: /users");
+                exit;
+            }
+            $_POST['user-password']="12345678Uy@";
+            $message = UserValidator::validate($_POST);
+            if ($message !==''){
+                $_SESSION['message'] = $message;
+                header('Location: /users');
+                exit;
+            }
+            $user_id= trim($_POST['user-id']?? '');
+            $user_name= trim($_POST['user-name']?? '');
+            $user_email = trim($_POST['user-email']?? '');
+            $user_role = trim($_POST['user-role']?? '');
+
+            $success = $this->repository->updateUser(
+                (int)$user_id,
+                $user_name,
+                $user_email,
+                $user_role,
+            );
+
+            if ($success) {
+                $_SESSION["message"] = "Пользователь успешно создан";
+            } else {
+                $_SESSION["message"] = "Невозможно создать пользователя";
+            }
+            
+            header('Location: /users');
+            exit;
+        }
     }
 ?>

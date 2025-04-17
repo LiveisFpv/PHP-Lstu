@@ -48,6 +48,7 @@
     $router->get('/users/logout', [$users, 'logout'], [AuthMiddleware::class]);
     $router->get('/users/create', [$users,'form']);
     $router->post('/users/create', [$users,'create']);
+    $router->post('/users/update', [$users,'update'], [AuthMiddleware::class]);
     $router->get('/users/pdf', [$users, 'generatePdf'], [AuthMiddleware::class]);
 
 
