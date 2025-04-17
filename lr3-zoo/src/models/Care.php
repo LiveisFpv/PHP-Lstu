@@ -35,6 +35,19 @@ class Care{
         ]);
         return $success;
     }
+    public function updateCare(int $care_id, string $care_type, string $animal_name): bool {
+        $stmt = $this->pdo->prepare(
+            "UPDATE care 
+            SET care_type=:care_type,
+            animal_name=:animal_name
+            WHERE care_id=:care_id");
+        $success=$stmt->execute([
+            'care_id' => $care_id,
+            'care_type' => $care_type,
+            'animal_name' => $animal_name,
+        ]);
+        return $success;
+    }
 }
 
 ?>

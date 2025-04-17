@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("forms").addEventListener("submit", function (event) {
-        let isValid = true;
+        
+        isValid = validateInput();
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+});
+function validateInput(){
+    let isValid = true;
 
         const careType = document.getElementById("care-type");
         if (careType.value.trim() === ""){
@@ -23,9 +32,5 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             clearError("animal-name");
         }
-
-        if (!isValid) {
-            event.preventDefault();
-        }
-    });
-});
+    return isValid
+}

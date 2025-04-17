@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зоопарк у дома</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/lib/BasicValid.js" defer></script>
+    <script src="/js/validators/CareValid.js" defer></script>
 </head>
 <body>
     {% include 'alert.twig' %}
@@ -49,5 +51,6 @@
             <a href="/cares/pdf?filter_name={{ selected_name }}" target="_blank">Скачать PDF</a>
         </div>
     </div>
+    {% include 'forms/edit_care.twig'%}
 </body>
 </html>

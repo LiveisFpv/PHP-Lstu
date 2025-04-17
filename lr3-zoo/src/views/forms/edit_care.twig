@@ -2,14 +2,16 @@
   <div class="modal-content">
     <span class="close-care">&times;</span>
     <form id="editCareForm" method="POST" action="/cares/update">
-      <input type="hidden" name="care_id" id="editCareId">
+      <input type="hidden" name="care-id" id="care-id">
       <div class="form-group">
-        <label for="editAnimalName">Название животного:</label>
-        <input type="text" id="editAnimalName" name="animal_name" required>
+        <label for="animal_name">Название животного:</label>
+        <input type="text" id="animal-name" name="animal-name">
+        <span id="animal-name-span"></span>
       </div>
       <div class="form-group">
-        <label for="editCareType">Тип ухода:</label>
-        <input type="text" id="editCareType" name="care_type" required>
+        <label for="care-type">Тип ухода:</label>
+        <input type="text" id="care-type" name="care-type">
+        <span id="care-type-span"></span>
       </div>
       <button type="submit">Сохранить</button>
     </form>
@@ -17,7 +19,6 @@
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Открытие модального окна
   document.querySelectorAll('[id^="button_"]').forEach(button => {
     button.addEventListener('click', function() {
       const row = this.closest('tr');
@@ -27,15 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
         care: row.cells[1].textContent
       };
 
-      document.getElementById('editCareId').value = careData.id;
-      document.getElementById('editAnimalName').value = careData.animal;
-      document.getElementById('editCareType').value = careData.care;
+      document.getElementById('care-id').value = careData.id;
+      document.getElementById('animal-name').value = careData.animal;
+      document.getElementById('care-type').value = careData.care;
       
       document.getElementById('editCareModal').style.display = 'block';
     });
   });
 
-  // Закрытие модального окна
   document.querySelector('.close-care').addEventListener('click', function() {
     document.getElementById('editCareModal').style.display = 'none';
   });
@@ -47,22 +47,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById('editCareForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    fetch('/cares/update', {
-      method: 'POST',
-      body: new URLSearchParams(new FormData(this))
-    })
-    .then(response => {
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        alert('Ошибка при сохранении');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
+    if (!validateInput()){
+        e.preventDefault();
+        alert('Проверьте форму');
+        return;
+    }
   });
 });
 </script>

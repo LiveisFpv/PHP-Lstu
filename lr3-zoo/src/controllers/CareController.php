@@ -111,5 +111,35 @@
             header("Location: /cares/create");
             exit;
         }
+
+        public function update(){
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header("Location: /cares");
+                exit;
+            }
+            $message = CareValidator::validate($_POST);
+            if ($message!=='') {
+                $_SESSION["message"] = $message;
+                header("Location: /cares");
+                exit;
+            }
+            $care_id = trim($_POST['care-id']?? '');
+            $care_type = trim($_POST['care-type']?? '');
+            $animal_name = trim($_POST['animal-name'] ?? '');
+
+            $success = $this->repository->updateCare(
+                (int)$care_id,
+                $care_type,
+                $animal_name,
+            );
+
+            if ($success) {
+                $_SESSION["message"] = "Уход успешно добавлен!";
+            } else {
+                $_SESSION["message"] = "Ошибка при добавлении в базу данных.";
+            }
+            header("Location: /cares");
+            exit;
+        }
     }
 ?>
