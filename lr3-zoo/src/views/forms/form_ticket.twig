@@ -9,14 +9,7 @@
     <script src="/js/validators/TicketValid.js" defer></script>
 </head>
 <body>
-    <script>
-        window.onload = function() {
-            let message = {{ message|json_encode|raw }};
-            if (message) {
-                alert(message);
-            }
-        };
-    </script>
+    {% include 'alert.twig' %}
 
     {% include 'header.twig' %}
 

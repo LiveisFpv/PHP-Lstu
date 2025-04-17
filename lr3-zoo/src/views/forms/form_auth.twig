@@ -8,14 +8,7 @@
     <script src="/js/lib/BasicValid.js" defer></script>
 </head>
 <body>
-    <script>
-        window.onload = function() {
-            let message = {{ message ? message|json_encode|raw : '""' }};
-            if (message) {
-                alert(message);
-            }
-        };
-    </script>
+    {% include 'alert.twig' %}
     {% include 'header.twig' %}
     <div class="form-container">
         <h2>Авторизация</h2>

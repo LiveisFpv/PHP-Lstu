@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', function() {
       const row = this.closest('tr');
       const animalData = {
-        id: this.id.split('-')[1],
+        id: this.id.split('_')[1],
         name: row.cells[0].textContent,
         gender: row.cells[1].textContent,
         age: row.cells[2].textContent,
@@ -71,27 +71,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.getElementById('editAnimalForm').addEventListener('submit', function(e) {
-    e.preventDefault();
     if (!validateInput()){
+        e.preventDefault();
         alert('Проверьте форму');
         return;
     }
-    
-    
-    fetch('/animals/update', {
-      method: 'POST',
-      body: new URLSearchParams(new FormData(this))
-    })
-    .then(response => {
-      if (response.ok) {
-        window.location.reload();
-      } else {
-        alert('Ошибка при сохранении');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
   });
 });
 </script>

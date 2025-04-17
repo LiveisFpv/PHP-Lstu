@@ -186,9 +186,7 @@
         }
 
         public function update() {
-            if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            }
+            
 
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 header("Location: /animals");
@@ -202,6 +200,7 @@
                 header("Location: /animals");
                 exit;
             }
+
             $animal_id = trim($_POST['animal-id']?? '');
             $animal_name = trim($_POST['animal-name']?? '');
             $animal_gender = trim($_POST['animal-gender']?? '');
@@ -209,7 +208,7 @@
             $animal_cage = trim($_POST['animal-cage']?? '');
 
             $success = $this->repository->updateAnimal(
-                $animal_id,
+                (int)$animal_id,
                 $animal_name,
                 $animal_gender,
                 (int)$animal_age,
