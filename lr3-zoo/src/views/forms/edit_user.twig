@@ -1,0 +1,83 @@
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <form id="editForm" method="POST" action="/users/update">
+        <input type="hidden" name="user_id" id="user_id">
+        <div class="form-group">
+            <label for="user_name">Имя пользователя:</label>
+            <input type="text" id="user_name" name="user_name">
+        </div>
+        <div class="form-group">
+            <label for="user_email">Email:</label>
+            <input type="email" id="user_email" name="user_email">
+        </div>
+        {# <div class="form-group">
+            <label for="user_password">Пароль:</label>
+            <input type="text" id="user_password" name="user_password">
+        </div> #}
+        <div class="form-group">
+            <label for="user_role">Роль:</label>
+            <select id="user_role" name="user_role">
+            <option value="user">user</option>
+            <option value="admin">admin</option>
+            </select>
+        </div>
+        <button type="submit">Сохранить</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('[id^="button_"]').forEach(button => {
+        button.addEventListener('click', function() {
+        const row = this.closest('tr');
+        const userData = {
+            id: this.id.split('_')[1],
+            name: row.cells[0].textContent,
+            email: row.cells[1].textContent,
+            // password: row.cells[2].textContent,
+            role: row.cells[3].textContent
+        };
+
+        document.getElementById('user_id').value = userData.id;
+        document.getElementById('user_name').value = userData.name;
+        document.getElementById('user_email').value = userData.email;
+        // document.getElementById('user_password').value = userData.password;
+        document.getElementById('user_role').value = userData.role;
+        
+        document.getElementById('editModal').style.display = 'block';
+        });
+    });
+
+    document.querySelector('.close').addEventListener('click', function() {
+        document.getElementById('editModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === document.getElementById('editModal')) {
+        document.getElementById('editModal').style.display = 'none';
+        }
+    });
+
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        fetch('/users/update', {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(this))
+        })
+        .then(response => {
+        if (response.ok) {
+            window.location.reload();
+        } else {
+            alert({{message}});
+        }
+        })
+        .catch(error => {
+        console.error('Error:', error);
+        });
+    });
+    });
+</script>

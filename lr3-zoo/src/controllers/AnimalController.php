@@ -138,7 +138,7 @@
                         "animal-name" => $name,
                         "animal-gender" => $gender,
                         "animal-age" => $age,
-                        "cage" => $cage,
+                        "animal-cage" => $cage,
                     );
 
                     $message .= AnimalValidator::validate($data);
@@ -166,7 +166,7 @@
             $animal_name = trim($_POST['animal-name']?? '');
             $animal_gender = trim($_POST['animal-gender']?? '');
             $animal_age = trim($_POST['animal-age']?? '');
-            $animal_cage = trim($_POST['cage']?? '');
+            $animal_cage = trim($_POST['animal-cage']?? '');
 
             $success = $this->repository->addAnimal(
                 $animal_name,
@@ -182,6 +182,47 @@
             }
     
             header("Location: /animals/create");
+            exit;
+        }
+
+        public function update() {
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header("Location: /animals");
+                exit;
+            }
+            
+            $message = AnimalValidator::validate($_POST);
+    
+            if ($message!=='') {
+                $_SESSION["message"] = $message;
+                header("Location: /animals");
+                exit;
+            }
+            $animal_id = trim($_POST['animal-id']?? '');
+            $animal_name = trim($_POST['animal-name']?? '');
+            $animal_gender = trim($_POST['animal-gender']?? '');
+            $animal_age = trim($_POST['animal-age']?? '');
+            $animal_cage = trim($_POST['animal-cage']?? '');
+
+            $success = $this->repository->updateAnimal(
+                $animal_id,
+                $animal_name,
+                $animal_gender,
+                (int)$animal_age,
+                (int)$animal_cage,
+            );
+    
+            if ($success) {
+                $_SESSION["message"] = "Животное успешно обновлено!";
+            } else {
+                $_SESSION["message"] = "Ошибка при обновлении в базе данных.";
+            }
+    
+            header("Location: /animals");
             exit;
         }
         public function import($path){

@@ -14,41 +14,45 @@
         <h2>Билеты</h2>
 
         <br><br>
-
-        <table>
-            <tr>
-                <th>Номер билета</th>
-                <th>Дата</th>
-                <th>Время</th>
-                <th>Стоимость</th>
-                <th>Email пользователя</th>
-                <th>Qr code</th>
-                <th>Состояние</th>
-            </tr>
-            {% for ticket in tickets %}
+        <div class="table-con">
+            <table>
                 <tr>
-                    <td>{{ ticket.ticket_id }}</td>
-                    <td>{{ ticket.ticket_date }}</td>
-                    <td>{{ ticket.ticket_time }}</td>
-                    <td>{{ ticket.ticket_cost }}</td>
-                    <td>{{ ticket.user_email }}</td>
-                    <td>
-                        <div class="qr-code" id="qr-{{ loop.index }}"
-                            data-text="TicketID:{{ ticket.ticket_id }} TicketDate:{{ticket.ticket_date}} TicketTime:{{ticket.ticket_time}}">
-                        </div>
-                    </td>
-                    <td>
-                        <div class="form-group">
+                    <th>Номер билета</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Стоимость</th>
+                    <th>Email пользователя</th>
+                    <th>Qr code</th>
+                    <th>Состояние</th>
+                </tr>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.ticket_id }}</td>
+                        <td>{{ ticket.ticket_date }}</td>
+                        <td>{{ ticket.ticket_time }}</td>
+                        <td>{{ ticket.ticket_cost }}</td>
+                        <td>{{ ticket.user_email }}</td>
+                        <td>
+                            <div class="qr-code" id="qr-{{ loop.index }}"
+                                data-text="TicketID:{{ ticket.ticket_id }} TicketDate:{{ticket.ticket_date}} TicketTime:{{ticket.ticket_time}}">
+                            </div>
+                        </td>
+                        <td>
+                        {% if ticket.is_expired %}
+                            <button id="button_{{ ticket.ticket_id }} " disabled>Просрочен</button>
+                        {% else %}
                             <button id="button_{{ ticket.ticket_id }}">Отменить</button>
-                        </div>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="7">Нет данных</td>
-                </tr>
-            {% endfor %}
-        </table>
+                        {% endif %}
+                        
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Нет данных</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
         <div class="form-group">
             <a href="/tickets/pdf" target="_blank">Скачать PDF</a>
         </div>
@@ -64,5 +68,39 @@
                 height: 80,
             });
         });
+        document.querySelectorAll('tr[data-ticket-id]').forEach(row => {
+            const dateStr = row.querySelector('.ticket-date').textContent;
+            const timeStr = row.querySelector('.ticket-time').textContent;
+            const statusCell = row.querySelector('.status-cell');
+            
+            // Создаем объект Date для билета
+            const ticketDate = new Date(`${dateStr}T${timeStr}`);
+            const now = new Date();
+
+            if (ticketDate < now) {
+                // Помечаем как просроченный
+                statusCell.innerHTML = '<span class="expired">Просрочен</span>';
+            }
+        });
+
+        // Обработка отмены билета
+        document.querySelectorAll('.cancel-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const ticketId = this.dataset.ticketId;
+                if (confirm('Вы уверены, что хотите отменить билет?')) {
+                    fetch(`/tickets/cancel/${ticketId}`, {
+                        method: 'POST'
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            window.location.reload();
+                        } else {
+                            alert('Ошибка при отмене билета');
+                        }
+                    });
+                }
+            });
+        });
     });
+    
 </script>

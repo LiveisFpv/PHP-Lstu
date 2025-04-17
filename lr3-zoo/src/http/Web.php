@@ -31,6 +31,7 @@
     $router->get('/animals/create', [$animals, 'form'], [AuthMiddleware::class]);
     $router->post('/animals/create', [$animals, 'create'], [AuthMiddleware::class]);
     $router->get('/animals/pdf', [$animals, 'generatePdf'], [AuthMiddleware::class]);
+    $router->post('/animals/update', [$animals, 'update'], [AuthMiddleware::class]);
 
     $cares = new CareController();
     $router->get('/cares', [$cares,'index'], [AuthMiddleware::class]);

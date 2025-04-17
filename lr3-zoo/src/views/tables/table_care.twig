@@ -20,24 +20,30 @@
         </form>
         <br>
         <br>
-        <table>
-            <tr>
-                <!-- <th>care_id</th> -->
-                <th>название животного</th>
-                <th>Уход</th>
-            </tr>
-            {% for care in cares %}
+        <div class="table-con">
+            <table>
                 <tr>
-                    <!-- <td>{{ care.care_id }}</td> -->
-                    <td>{{ care.animal_name }}</td>
-                    <td>{{ care.care_type}}</td>
+                    <!-- <th>care_id</th> -->
+                    <th>Название животного</th>
+                    <th>Уход</th>
+                    <th></th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2">Нет данных</td>
-                </tr>
-            {% endfor %}
-        </table>
+                {% for care in cares %}
+                    <tr>
+                        <!-- <td>{{ care.care_id }}</td> -->
+                        <td>{{ care.animal_name }}</td>
+                        <td>{{ care.care_type}}</td>
+                        <td>
+                            <button id="button_{{ care.care_id }}">Редактировать</button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Нет данных</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
         <div class="form-group">
             <a href="/cares/pdf?filter_name={{ selected_name }}" target="_blank">Скачать PDF</a>
         </div>

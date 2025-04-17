@@ -7,7 +7,7 @@
             $animal_name = trim($data['animal-name']?? '');
             $animal_gender = trim($data['animal-gender']?? '');
             $animal_age = trim($data['animal-age']?? '');
-            $cage = trim($data['cage']?? '');
+            $cage = trim($data['animal-cage']?? '');
             $message ="";
             if(empty($animal_name)){
                 $message = $message . "Название животного не может быть пустым.\n";

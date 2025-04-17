@@ -42,6 +42,22 @@ class Animal{
         ]);
         return $success;
     }
+    public function updateAnimal(int $animal_id, string $animal_name, string $animal_gender, int $animal_age, int $animal_cage): bool {
+        $stmt = $this->pdo->prepare("UPDATE animals 
+        SET animal_name = :name,
+        animal_gender = :gender,
+        animal_age = :age,
+        animal_cage = :cage
+        WHERE animal_id=:id");
+        $success = $stmt->execute([
+            ':id' => $animal_id,
+            ':name' => $animal_name,
+            ':gender' => $animal_gender,
+            ':age' => $animal_age,
+            ':cage' => $animal_cage,
+        ]);
+        return $success;
+    }
     public function import(string $path): bool{
         $file = fopen($path,"r");
         if ($file){

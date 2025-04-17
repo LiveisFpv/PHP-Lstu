@@ -1,0 +1,97 @@
+<div id="editAnimalModal" class="modal">
+  <div class="modal-content">
+    <span class="close-animal">&times;</span>
+    <form id="editAnimalForm" method="POST" action="/animals/update">
+      <input type="hidden" name="animal-id" id="animal-id">
+      <div class="form-group">
+        <label for="animal-name">Название животного:</label>
+        <select id="animal-name" name="animal-name" required>
+            {% for animal in animals %}
+                <option value="{{ animal.animal_name }}">{{ animal.animal_name }}</option>
+            {% endfor %}
+                <option disabled>Добавьте уход для добавления животного</option>
+        </select>
+        <span id="animal-name-span"></span>
+      </div>
+      <div class="form-group">
+        <label for="animal-gender">Пол:</label>
+        <select id="animal-gender" name="animal-gender">
+          <option value="м">Мужской</option>
+          <option value="ж">Женский</option>
+        </select>
+        <span id="animal-gender-span"></span>
+      </div>
+      <div class="form-group">
+        <label for="animal-age">Возраст:</label>
+        <input type="number" id="animal-age" name="animal-age">
+        <span id="animal-age-span"></span>
+      </div>
+      <div class="form-group">
+        <label for="animal-cage">Номер клетки:</label>
+        <input type="number" id="animal-cage" name="animal-cage">
+        <span id="animal-cage-span"></span>
+      </div>
+      <button type="submit">Сохранить</button>
+    </form>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('[id^="button_"]').forEach(button => {
+    button.addEventListener('click', function() {
+      const row = this.closest('tr');
+      const animalData = {
+        id: this.id.split('-')[1],
+        name: row.cells[0].textContent,
+        gender: row.cells[1].textContent,
+        age: row.cells[2].textContent,
+        cage: row.cells[3].textContent,
+      };
+
+      document.getElementById('animal-id').value = animalData.id;
+      document.getElementById('animal-name').value = animalData.name;
+      document.getElementById('animal-gender').value = animalData.gender;
+      document.getElementById('animal-age').value = animalData.age;
+      document.getElementById('animal-cage').value = animalData.cage;
+
+
+      
+      document.getElementById('editAnimalModal').style.display = 'block';
+    });
+  });
+
+  document.querySelector('.close-animal').addEventListener('click', function() {
+    document.getElementById('editAnimalModal').style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target === document.getElementById('editAnimalModal')) {
+      document.getElementById('editAnimalModal').style.display = 'none';
+    }
+  });
+
+  document.getElementById('editAnimalForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!validateInput()){
+        alert('Проверьте форму');
+        return;
+    }
+    
+    
+    fetch('/animals/update', {
+      method: 'POST',
+      body: new URLSearchParams(new FormData(this))
+    })
+    .then(response => {
+      if (response.ok) {
+        window.location.reload();
+      } else {
+        alert('Ошибка при сохранении');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+});
+</script>

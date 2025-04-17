@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Зоопарк у дома</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/lib/BasicValid.js" defer></script>
+    <script src="/js/validators/AnimalValid.js" defer></script>
 </head>
 <body>
     {% include 'header.twig' %}
@@ -28,33 +30,48 @@
         </form>
         <br>
         <br>
-        <table>
-            <tr>
-                {# <th>animal_id</th> #}
-                <th>Название животного</th>
-                <th>Пол животного</th>
-                <th>Возвраст</th>
-                <th>Номер клетки</th>
-                <th>Уход</th>
-            </tr>
-            {% for animal in animals %}
+        <div class="table-con">
+            <table>
                 <tr>
-                    {# <td>{{ animal.animal_id }}</td> #}
-                    <td>{{ animal.animal_name }}</td>
-                    <td>{{ animal.animal_gender }}</td>
-                    <td>{{ animal.animal_age }}</td>
-                    <td>{{ animal.animal_cage }}</td>
-                    <td>{{ animal.care_type }}</td>
+                    {# <th>animal_id</th> #}
+                    <th>Название животного</th>
+                    <th>Пол животного</th>
+                    <th>Возвраст</th>
+                    <th>Номер клетки</th>
+                    <th>Уход</th>
+                    {% if user and user.role == 'admin'%}
+                        <th></th>
+                    {% endif %}
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">Нет данных</td>
-                </tr>
-            {% endfor %}
-        </table>
+                {% for animal in animals %}
+                    <tr>
+                        {# <td>{{ animal.animal_id }}</td> #}
+                        <td>{{ animal.animal_name }}</td>
+                        <td>{{ animal.animal_gender }}</td>
+                        <td>{{ animal.animal_age }}</td>
+                        <td>{{ animal.animal_cage }}</td>
+                        <td>{{ animal.care_type }}</td>
+                        {% if user and user.role == 'admin'%}
+                        <td>
+                            <button id="button_{{ animal.animal_id }}">Редактировать</button>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% else %}
+                    <tr>
+                        {% if user and user.role == 'admin'%}
+                            <td colspan="6">Нет данных</td>
+                        {% else %}
+                            <td colspan="5">Нет данных</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
         <div class="form-group">
             <a href="/animals/pdf?filter_gender={{ selected_gender }}&filter_name={{ selected_name }}" target="_blank">Скачать PDF</a>
         </div>
     </div>
+    {% include 'forms/edit_animal.twig'%}
 </body>
 </html>
