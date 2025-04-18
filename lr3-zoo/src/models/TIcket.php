@@ -33,6 +33,13 @@ class Ticket{
         ]);
         return $success;
     }
+    public function cancelTicket(int $ticket_id): bool {
+        $stmt = $this->pdo->prepare("DELETE FROM tickets WHERE ticket_id=:ticket_id");
+        $success=$stmt->execute([
+            'ticket_id' => $ticket_id
+        ]);
+        return $success;
+    }
 }
 
 ?>

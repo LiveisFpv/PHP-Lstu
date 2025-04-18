@@ -108,6 +108,12 @@ button {
     transition: background-color 0.3s ease, transform 0.2s;
 }
 
+button:disabled{
+    cursor:not-allowed;
+    background-color: #3395ff;
+    transition: none;
+}
+
 button:hover {
     background-color: #0056b3;
     transform: scale(1.05);

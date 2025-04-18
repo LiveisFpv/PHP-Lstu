@@ -39,12 +39,13 @@
                             </div>
                         </td>
                         <td>
-                        {% if ticket.is_expired %}
-                            <button id="button_{{ ticket.ticket_id }} " disabled>Просрочен</button>
-                        {% else %}
-                            <button id="button_{{ ticket.ticket_id }}">Отменить</button>
-                        {% endif %}
-                        
+                            <button id="button_{{ ticket.ticket_id }}" 
+                                    class="cancel-btn" 
+                                    data-ticket-id="{{ ticket.ticket_id }}" 
+                                    data-date="{{ ticket.ticket_date }}" 
+                                    data-time="{{ ticket.ticket_time }}">
+                                Отменить
+                            </button>
                         </td>
                     </tr>
                 {% else %}
@@ -60,48 +61,47 @@
     </div>
 </body>
 </html>
+
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".qr-code").forEach(function (el) {
-            new QRCode(el, {
-                text: el.dataset.text,
-                width: 80,
-                height: 80,
-            });
-        });
-        document.querySelectorAll('tr[data-ticket-id]').forEach(row => {
-            const dateStr = row.querySelector('.ticket-date').textContent;
-            const timeStr = row.querySelector('.ticket-time').textContent;
-            const statusCell = row.querySelector('.status-cell');
-            
-            // Создаем объект Date для билета
-            const ticketDate = new Date(`${dateStr}T${timeStr}`);
-            const now = new Date();
-
-            if (ticketDate < now) {
-                // Помечаем как просроченный
-                statusCell.innerHTML = '<span class="expired">Просрочен</span>';
-            }
-        });
-
-        // Обработка отмены билета
-        document.querySelectorAll('.cancel-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const ticketId = this.dataset.ticketId;
-                if (confirm('Вы уверены, что хотите отменить билет?')) {
-                    fetch(`/tickets/cancel/${ticketId}`, {
-                        method: 'POST'
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            window.location.reload();
-                        } else {
-                            alert('Ошибка при отмене билета');
-                        }
-                    });
-                }
-            });
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".qr-code").forEach(function (el) {
+        new QRCode(el, {
+            text: el.dataset.text,
+            width: 80,
+            height: 80,
         });
     });
-    
+
+    document.querySelectorAll('.cancel-btn').forEach(button => {
+        const dateStr = button.dataset.date;
+        const timeStr = button.dataset.time;
+        const ticketDateTime = new Date(`${dateStr}T${timeStr}`);
+        const now = new Date();
+
+        if (ticketDateTime < now) {
+            button.textContent = 'Просрочен';
+            button.disabled = true;
+        }
+    });
+
+    document.querySelectorAll('.cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const ticketId = this.dataset.ticketId;
+            if (confirm('Вы уверены, что хотите отменить билет?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/tickets/cancel';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'ticket_id';
+            input.value = this.dataset.ticketId;
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+            }
+        });
+    });
+});
 </script>

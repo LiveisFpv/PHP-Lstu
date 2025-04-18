@@ -57,6 +57,7 @@
     $router->get('/tickets', [$tickets,'index'], [AuthMiddleware::class]);
     $router->get('/tickets/pdf', [$tickets,'generatePdf'], [AuthMiddleware::class]);
     $router->post('/tickets/create', [$tickets,'create'], [AuthMiddleware::class]);
+    $router->post('/tickets/cancel', [$tickets,'cancel'], [AuthMiddleware::class]);
 
     $open = new Web();
     $router->get('/', [$open, 'main']);

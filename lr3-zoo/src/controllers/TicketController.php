@@ -129,5 +129,25 @@ class TicketController {
         header("Location: /tickets/create");
         exit;
     }
+    public function cancel() {
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header("Location: /tickets");
+            exit;
+        }
+
+        $ticket_id = trim($_POST['ticket_id'] ?? '');
+        
+        $success = $this->repository->cancelTicket((int)$ticket_id);
+
+        if ($success) {
+            $_SESSION["message"] = "Билет успешно отменен!";
+        } else {
+            $_SESSION["message"] = "Ошибка при отмене билета.";
+        }
+
+        header("Location: /tickets");
+        exit;
+    }
 }
 ?>
