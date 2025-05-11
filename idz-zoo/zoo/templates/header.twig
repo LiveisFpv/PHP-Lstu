@@ -2,11 +2,11 @@
 <header>
     <a href="/">Главная</a>
     {% if not app.user %}
-        <a href="/user/register">Регистрация</a>
-        <a href="/user/login">Авторизация</a>
+        <a href="/register">Регистрация</a>
+        <a href="/login">Авторизация</a>
     {% else %}
-        <a href="/user/profile">Профиль</a>
-        <a href="/user/logout">Выход</a>
+        <a href="/profile">Профиль</a>
+        <a href="/logout">Выход</a>
     {% endif %}
 </header>
 {% include 'menu.twig' %}

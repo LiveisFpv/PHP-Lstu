@@ -16,13 +16,13 @@ class Animal
     #[ORM\Column(length: 255)]
     private ?string $animalName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $animalGender = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?int $animalAge = null;
 
-    #[ORM\Column]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?int $animalCage = null;
 
     public function getId(): ?int

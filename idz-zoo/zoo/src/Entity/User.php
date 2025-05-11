@@ -17,7 +17,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $userName = null;
 
     #[ORM\Column(length: 255, unique: true)]
@@ -87,8 +87,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->userRole;
-        $roles[] = 'user';
-        $roles[] = 'admin';
+        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_ADMIN';
         return array_unique($roles);
     }
 

@@ -7,36 +7,41 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Animal</h1>
+    <div class="table-container">
+        <h2>Animal</h2>
+        <div class="table-con">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ animal.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>AnimalName</th>
+                        <td>{{ animal.animalName }}</td>
+                    </tr>
+                    <tr>
+                        <th>AnimalGender</th>
+                        <td>{{ animal.animalGender }}</td>
+                    </tr>
+                    <tr>
+                        <th>AnimalAge</th>
+                        <td>{{ animal.animalAge }}</td>
+                    </tr>
+                    <tr>
+                        <th>AnimalCage</th>
+                        <td>{{ animal.animalCage }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ animal.id }}</td>
-            </tr>
-            <tr>
-                <th>AnimalName</th>
-                <td>{{ animal.animalName }}</td>
-            </tr>
-            <tr>
-                <th>AnimalGender</th>
-                <td>{{ animal.animalGender }}</td>
-            </tr>
-            <tr>
-                <th>AnimalAge</th>
-                <td>{{ animal.animalAge }}</td>
-            </tr>
-            <tr>
-                <th>AnimalCage</th>
-                <td>{{ animal.animalCage }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_animal_index') }}">back to list</a>
-
-    <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
-
+        <div class="form-group">
+            <a href="{{ path('app_animal_index') }}">back to list</a>
+        </div>
+        <div class="form-group">
+            <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">edit</a>
+        </div>
+    </div>
     {{ include('animal/_delete_form.html.twig') }}
 {% endblock %}

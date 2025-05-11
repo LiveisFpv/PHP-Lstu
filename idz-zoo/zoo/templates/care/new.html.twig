@@ -3,9 +3,12 @@
 {% block title %}New Care{% endblock %}
 
 {% block body %}
-    <h1>Create new Care</h1>
+<div class="form-container">
+    <h2>Create new Care</h2>
 
     {{ include('care/_form.html.twig') }}
-
-    <a href="{{ path('app_care_index') }}">back to list</a>
+    <div class="form-group">
+        <a href="{{ path('app_care_index') }}">back to list</a>
+    </div>
+</div>
 {% endblock %}

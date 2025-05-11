@@ -3,8 +3,9 @@
 {% block title %}User index{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
-
+<div class="table-container">
+    <h2>User index</h2>
+    <div class="table-con">
     <table class="table">
         <thead>
             <tr>
@@ -23,7 +24,7 @@
                 <td>{{ user.userName }}</td>
                 <td>{{ user.userEmail }}</td>
                 <td>{{ user.userPassword }}</td>
-                <td>{{ user.userRole }}</td>
+                <td>{{ user.userRole|join(', ') }}</td>
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
@@ -36,6 +37,9 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+    </div>
+    <div class="form-group">
+        <a href="{{ path('app_user_new') }}">Create new</a>
+    </div>
+</div>
 {% endblock %}

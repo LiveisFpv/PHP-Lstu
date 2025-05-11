@@ -6,18 +6,18 @@
 
         {% if not app.user %}
             <a href="/">Главная</a>
-            <a href="/animals">Таблица животных</a>
+            <a href="/animal">Таблица животных</a>
         {% else %}
             <a href="/">Главная</a>
-            <a href="/tickets/create">Покупка билетов</a>
-            <a href="/animals">Животные зоопарка</a>
-            <a href="/tickets">Купленные билеты</a>
+            <a href="/ticket/new">Покупка билетов</a>
+            <a href="/animal">Животные зоопарка</a>
+            <a href="/ticket">Купленные билеты</a>
 
-            {% if 'admin' in app.user.roles %}
-                <a href="/animals/create">Добавление животного</a>
-                <a href="/cares/create">Добавление ухода</a>
-                <a href="/cares">Таблица ухода</a>
-                <a href="/users">Таблица пользователей</a>
+            {% if 'ROLE_ADMIN' in app.user.roles %}
+                <a href="/animal/new">Добавление животного</a>
+                <a href="/care/new">Добавление ухода</a>
+                <a href="/care">Таблица ухода</a>
+                <a href="/user">Таблица пользователей</a>
             {% endif %}
         {% endif %}
     </nav>

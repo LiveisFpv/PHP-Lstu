@@ -3,39 +3,43 @@
 {% block title %}Ticket index{% endblock %}
 
 {% block body %}
-    <h1>Ticket index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>TicketDate</th>
-                <th>TicketTime</th>
-                <th>TicketCost</th>
-                <th>UserEmail</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ticket in tickets %}
-            <tr>
-                <td>{{ ticket.id }}</td>
-                <td>{{ ticket.ticketDate }}</td>
-                <td>{{ ticket.ticketTime }}</td>
-                <td>{{ ticket.ticketCost }}</td>
-                <td>{{ ticket.userEmail }}</td>
-                <td>
-                    <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
-                    <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_ticket_new') }}">Create new</a>
+<div class="table-container">
+    <h2>Ticket index</h2>
+    <div class="table-con">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>TicketDate</th>
+                    <th>TicketTime</th>
+                    <th>TicketCost</th>
+                    <th>UserEmail</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.ticketDate }}</td>
+                    <td>{{ ticket.ticketTime }}</td>
+                    <td>{{ ticket.ticketCost }}</td>
+                    <td>{{ ticket.userEmail }}</td>
+                    <td>
+                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}">show</a>
+                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <a href="{{ path('app_ticket_new') }}">Create new</a>
+    </div>
+</div>
 {% endblock %}

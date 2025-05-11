@@ -25,6 +25,7 @@ footer{
 }
 
 .form-container {
+    display: flex;
     background-color: #ffffff;
     margin-top: 6rem;
     margin-bottom: 2rem;
@@ -35,6 +36,7 @@ footer{
     max-width: 400px;
     animation-duration: 1.2s;
     animation-name: formAppear;
+    column-gap: 20px;
 }
 
 .form-container h2 {
