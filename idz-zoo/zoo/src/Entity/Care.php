@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CareRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CareRepository::class)]
 class Care
@@ -14,9 +15,11 @@ class Care
     private ?int $id = null;
 
     #[ORM\Column(length: 255,)]
+    #[Assert\NotBlank]
     private ?string $careType = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $animalName = null;
 
     public function getId(): ?int

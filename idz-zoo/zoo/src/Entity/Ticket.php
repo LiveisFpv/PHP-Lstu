@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\TicketRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -13,16 +15,20 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $ticketDate = null;
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank]
+    private ?DateTime $ticketDate = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $ticketTime = null;
+    #[ORM\Column(nullable: true)]
+    #[Assert\NotBlank]
+    private ?DateTime $ticketTime = null;
 
     #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank]
     private ?float $ticketCost = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $userEmail = null;
 
     public function getId(): ?int
@@ -32,10 +38,10 @@ class Ticket
 
     public function getTicketDate(): ?string
     {
-        return $this->ticketDate;
+        return $this->ticketDate ? $this->ticketDate->format('Y-m-d') : null;
     }
 
-    public function setTicketDate(string $ticketDate): static
+    public function setTicketDate(DateTime $ticketDate): static
     {
         $this->ticketDate = $ticketDate;
 
@@ -44,10 +50,10 @@ class Ticket
 
     public function getTicketTime(): ?string
     {
-        return $this->ticketTime;
+        return $this->ticketTime ? $this->ticketTime->format('H:i:s') : null;
     }
 
-    public function setTicketTime(string $ticketTime): static
+    public function setTicketTime(DateTime $ticketTime): static
     {
         $this->ticketTime = $ticketTime;
 

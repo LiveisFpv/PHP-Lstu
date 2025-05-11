@@ -26,8 +26,8 @@
                 <td>{{ user.userPassword }}</td>
                 <td>{{ user.userRole|join(', ') }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}

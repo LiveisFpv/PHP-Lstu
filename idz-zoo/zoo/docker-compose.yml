@@ -20,7 +20,6 @@ services:
       MYSQL_PASSWORD: my_password
     volumes:
       - db_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
