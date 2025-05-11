@@ -25,12 +25,10 @@
 
             if (isset($this->routes[$method][$path])) {
                 $route = $this->routes[$method][$path];
-                
                 // Выполняем middleware
                 foreach ($route['middleware'] as $middlewareClass) {
                     (new $middlewareClass())->handle();
                 }
-                
                 // Выполняем основной обработчик
                 call_user_func($route['callback']);
             } else {
