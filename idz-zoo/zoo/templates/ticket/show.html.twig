@@ -2,6 +2,10 @@
 
 {% block title %}Ticket{% endblock %}
 
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+{% endblock %}
+
 {% block body %}
     <h1>Ticket</h1>
 
@@ -36,3 +40,47 @@
 
     {{ include('ticket/_delete_form.html.twig') }}
 {% endblock %}
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".qr-code").forEach(function (el) {
+        new QRCode(el, {
+            text: el.dataset.text,
+            width: 80,
+            height: 80,
+        });
+    });
+
+    document.querySelectorAll('.cancel-btn').forEach(button => {
+        const dateStr = button.dataset.date;
+        const timeStr = button.dataset.time;
+        const ticketDateTime = new Date(`${dateStr}T${timeStr}`);
+        const now = new Date();
+
+        if (ticketDateTime < now) {
+            button.textContent = 'Просрочен';
+            button.disabled = true;
+        }
+    });
+
+    document.querySelectorAll('.cancel-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const ticketId = this.dataset.ticketId;
+            if (confirm('Вы уверены, что хотите отменить билет?')) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/tickets/cancel';
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'ticket_id';
+            input.value = this.dataset.ticketId;
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+            }
+        });
+    });
+});
+</script>

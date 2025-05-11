@@ -4,7 +4,11 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="stylesheet" href="/css/style.css">
+        <script src="/js/lib/BasicValid.js" defer></script>
+        
         {% block stylesheets %}
+            <link rel="stylesheet" href="/css/main.css">
         {% endblock %}
 
         {% block javascripts %}
@@ -12,6 +16,64 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% include 'header.twig' %}
+        {% block body %}
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Добро пожаловать в мир дикой природы!</h1>
+                    <p class="hero-subtitle">Более 50 видов животных в самом сердце города</p>
+                    {% if not user %}
+                        <a href="/users/auth" class="cta-button">Авторизируйтесь и купите билет</a>
+                    {% else %}
+                        <a href="/tickets/create" class="cta-button">Покупка билетов</a>
+                    {% endif %}
+                </div>
+            </section>
+
+            <section class="featured-animals">
+                <h2>Наши звезды</h2>
+                <div class="animals-grid">
+                    <div class="animal-card">
+                        <img src="/images/red-panda.jpg" alt="Красная панда">
+                        <h3>Рыжик</h3>
+                        <p>Малая панда • 3 года</p>
+                    </div>
+                    <div class="animal-card">
+                        <img src="/images/snow-leopard.jpg" alt="Снежный барс">
+                        <h3>Снежок</h3>
+                        <p>Снежный барс • 5 лет</p>
+                    </div>
+                    <div class="animal-card">
+                        <img src="/images/morskaya-svinka.jpg" alt="Лемур">
+                        <h3>Цезарь</h3>
+                        <p>Морская свинка • 2 года</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="schedule">
+                <h2>Расписание кормлений</h2>
+                <div class="schedule-cards">
+                    <div class="time-card">
+                        <div class="time">11:00</div>
+                        <div class="event">Пингвины</div>
+                    </div>
+                    <div class="time-card">
+                        <div class="time">13:30</div>
+                        <div class="event">Большие кошки</div>
+                    </div>
+                    <div class="time-card">
+                        <div class="time">15:00</div>
+                        <div class="event">Лемуры</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="main-footer">
+            <p>© 2025 Зоопарк у дома «Синяя Панда»</p>
+        </footer>
+        {% endblock %}
     </body>
 </html>

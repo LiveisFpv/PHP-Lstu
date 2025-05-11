@@ -1,0 +1,93 @@
+.hamburger-menu {
+    position: fixed;
+    top: 1rem;
+    left: 1.5rem;
+    z-index: 11;
+    animation: slideDown 0.5s ease-out;
+}
+
+.hamburger-btn {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    transition: transform 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    background-color: #0056b3;
+}
+
+.hamburger-btn.active {
+    transform: rotate(90deg);
+}
+
+.menu {
+    position: absolute;
+    top: 3.2rem;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    border: #f1f1f1 2px solid;
+    animation: slideLeft 0.3s ease-out;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.menu a:hover {
+    background: #f1f1f1;
+    transform: translateY(-2px);
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #ffd700;
+    transition: all 0.3s ease;
+}
+
+.menu a:hover::after {
+    width: 100%;
+    left: 0;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideLeft {
+    from {
+        transform: translateX(-50%) scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}

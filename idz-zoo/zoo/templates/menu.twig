@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="/css/menu.css">
+<script src="/js/hamburger.js" defer></script>
+<div class="hamburger-menu">
+    <button class="hamburger-btn" onclick="toggleMenu()">☰</button>
+    <nav class="menu">
+
+        {% if not app.user %}
+            <a href="/">Главная</a>
+            <a href="/animals">Таблица животных</a>
+        {% else %}
+            <a href="/">Главная</a>
+            <a href="/tickets/create">Покупка билетов</a>
+            <a href="/animals">Животные зоопарка</a>
+            <a href="/tickets">Купленные билеты</a>
+
+            {% if 'admin' in app.user.roles %}
+                <a href="/animals/create">Добавление животного</a>
+                <a href="/cares/create">Добавление ухода</a>
+                <a href="/cares">Таблица ухода</a>
+                <a href="/users">Таблица пользователей</a>
+            {% endif %}
+        {% endif %}
+    </nav>
+</div>
