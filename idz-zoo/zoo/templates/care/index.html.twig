@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Care index{% endblock %}
+
+{% block body %}
+    <h1>Care index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CareType</th>
+                <th>AnimalName</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for care in cares %}
+            <tr>
+                <td>{{ care.id }}</td>
+                <td>{{ care.careType }}</td>
+                <td>{{ care.animalName }}</td>
+                <td>
+                    <a href="{{ path('app_care_show', {'id': care.id}) }}">show</a>
+                    <a href="{{ path('app_care_edit', {'id': care.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_care_new') }}">Create new</a>
+{% endblock %}
