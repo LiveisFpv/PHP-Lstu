@@ -63,8 +63,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.querySelectorAll('.cancel-btn').forEach(button => {
-        const dateStr = button.dataset.date;
-        const timeStr = button.dataset.time;
+        const dateStr = "{{ ticket.ticketDate }}";
+        const timeStr = "{{ ticket.ticketTime }}";
         const ticketDateTime = new Date(`${dateStr}T${timeStr}`);
         const now = new Date();
 

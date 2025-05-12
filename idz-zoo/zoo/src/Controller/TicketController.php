@@ -37,9 +37,17 @@ final class TicketController extends AbstractController
             if (!$email) {
                 $tickets = [];
             } else {
-                $tickets = $ticketRepository->findBy(
-                    ['userEmail' => $email],
-                );
+                $currentDate = new \DateTime();
+                $oneWeekAgo = (clone $currentDate)->modify('-1 week');
+                $tickets = $ticketRepository->createQueryBuilder('t')
+                ->where('t.userEmail = :email')
+                ->andWhere('t.ticketDate >= :oneWeekAgo')
+                ->setParameter('email', $email)
+                ->setParameter('oneWeekAgo', $oneWeekAgo)
+                ->orderBy('t.ticketDate', 'ASC')
+                ->addOrderBy('t.ticketTime', 'ASC')
+                ->getQuery()
+                ->getResult();
             }
             return $this->render('ticket/index.html.twig', [
                 'tickets' => $tickets,

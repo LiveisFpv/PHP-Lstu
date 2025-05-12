@@ -5,7 +5,7 @@
 {% block body %}
 {% if 'ROLE_ADMIN' in app.user.roles %}
 <div class="table-container">
-    <h2>Ticket Index</h2>
+    <h2>Tickets</h2>
 
     {{ form_start(form, {'method': 'GET'}) }}
         <div class="filters">
@@ -64,43 +64,20 @@
     </div>
 </div>
 {% else %}
-<div class="table-container">
-    <h2>Ticket index</h2>
-    <div class="table-con">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Ticket's Number</th>
-                    <th>Ticket Date</th>
-                    <th>Ticket Time</th>
-                    <th>Ticket Cost</th>
-                    <th>User Email</th>
-                    <th>Show</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for ticket in tickets %}
-                <tr>
-                    <td>{{ ticket.id }}</td>
-                    <td>{{ ticket.ticketDate }}</td>
-                    <td>{{ ticket.ticketTime }}</td>
-                    <td>{{ ticket.ticketCost }}</td>
-                    <td>{{ ticket.userEmail }}</td>
-                    <td>
-                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn-link">Show</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<section class="schedule">
+    <h2>Schedule of tickets</h2>
+    <div class="schedule-cards">
+    {% for ticket in tickets %}
+        <div class="time-card">
+            <h2>Zoo's Ticket</h2>
+            <div class="time">{{ ticket.ticketDate }}</div>
+            <div class="time">{{ ticket.ticketTime }}</div>
+            <br>
+            <br>
+            <div><a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn-link">Show</a></div>
+        </div>
+    {% endfor %}
     </div>
-    <div class="form-group">
-        <a href="{{ path('app_ticket_new') }}">Create new</a>
-    </div>
-</div>
+</section>
 {% endif %}
 {% endblock %}
