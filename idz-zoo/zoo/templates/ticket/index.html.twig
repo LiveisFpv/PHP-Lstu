@@ -3,6 +3,67 @@
 {% block title %}Ticket index{% endblock %}
 
 {% block body %}
+{% if 'ROLE_ADMIN' in app.user.roles %}
+<div class="table-container">
+    <h2>Ticket Index</h2>
+
+    {{ form_start(form, {'method': 'GET'}) }}
+        <div class="filters">
+        <div class="form-group">
+            {{ form_row(form.ticketDate) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.ticketTime) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.ticketCost) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.userEmail) }}
+        </div>
+        <div class="form-group">
+            <button class="btn" type="submit">Filter</button>
+        </div>
+        </div>
+    {{ form_end(form) }}
+
+    <div class="table-con">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'id', 'direction': currentDirection == 'asc' ? 'desc' : 'asc'})) }}">Ticket's Number</a></th>
+                    <th><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'ticketDate', 'direction': currentDirection == 'asc' ? 'desc' : 'asc'})) }}">Ticket Date</a></th>
+                    <th><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'ticketTime', 'direction': currentDirection == 'asc' ? 'desc' : 'asc'})) }}">Ticket Time</a></th>
+                    <th><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'ticketCost', 'direction': currentDirection == 'asc' ? 'desc' : 'asc'})) }}">Ticket Cost</a></th>
+                    <th><a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'sort': 'userEmail', 'direction': currentDirection == 'asc' ? 'desc' : 'asc'})) }}">User Email</a></th>
+                    <th>Show</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.id }}</td>
+                        <td>{{ ticket.ticketDate|date('Y-m-d') }}</td>
+                        <td>{{ ticket.ticketTime }}</td>
+                        <td>{{ ticket.ticketCost }}</td>
+                        <td>{{ ticket.userEmail }}</td>
+                        <td>
+                            <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn-link">Show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group">
+        <a href="{{ path('app_ticket_new') }}">Create new</a>
+    </div>
+</div>
+{% else %}
 <div class="table-container">
     <h2>Ticket index</h2>
     <div class="table-con">
@@ -41,4 +102,5 @@
         <a href="{{ path('app_ticket_new') }}">Create new</a>
     </div>
 </div>
+{% endif %}
 {% endblock %}

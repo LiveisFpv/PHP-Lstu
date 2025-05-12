@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ticket;
 use App\Form\TicketForm;
+use App\Form\TicketFilterType;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,12 +16,22 @@ use Symfony\Component\Routing\Attribute\Route;
 final class TicketController extends AbstractController
 {
     #[Route(name: 'app_ticket_index', methods: ['GET'])]
-    public function index(TicketRepository $ticketRepository): Response
+    public function index(Request $request,TicketRepository $ticketRepository): Response
     {
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $tickets = $ticketRepository->findAll();
+            $form = $this->createForm(TicketFilterType::class);
+            $form->handleRequest($request);
+            $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+            $sort = $request->query->get('sort', 'id');
+            $direction = $request->query->get('direction', 'asc');
+            $tickets = $ticketRepository->findByFiltersAndSort($filters, $sort, $direction);
+            return $this->render('ticket/index.html.twig', [
+                'form' => $form->createView(),
+                'tickets' => $tickets,
+                'currentDirection' => $direction,
+            ]);
         } else {
             $email = $user?->getUserIdentifier();
             if (!$email) {
@@ -30,11 +41,12 @@ final class TicketController extends AbstractController
                     ['userEmail' => $email],
                 );
             }
+            return $this->render('ticket/index.html.twig', [
+                'tickets' => $tickets,
+            ]);
         }
 
-        return $this->render('ticket/index.html.twig', [
-            'tickets' => $tickets,
-        ]);
+        
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]

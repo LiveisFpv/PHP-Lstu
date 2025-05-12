@@ -6,14 +6,33 @@
     {% if 'ROLE_ADMIN' in app.user.roles %}
     <div class="table-container">
         <h2>Animals</h2>
+        {{ form_start(form, {'method': 'GET'}) }}
+            <div class="filters">
+            <div class="form-group">
+                {{ form_row(form.animalName) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.animalGender) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.animalAge) }}
+            </div>
+            <div class="form-group">
+                <button class="btn" type="submit">Filter</button>
+            </div>
+            </div>
+        {{ form_end(form) }}
         <div class="table-con">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Animal Name</th>
-                        <th>Gender</th>
-                        <th>Age</th>
-                        <th>Cage Number</th>
+                        {% set direction = currentDirection == 'asc' ? 'desc' : 'asc' %}
+                        {% set baseParams = form.vars.value|default({})|merge(app.request.query.all|default({})) %}
+
+                        <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'animalName', 'direction': direction})) }}">Animal Name</a></th>
+                        <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'animalGender', 'direction': direction})) }}">Gender</a></th>
+                        <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'animalAge', 'direction': direction})) }}">Age</a></th>
+                        <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'animalCage', 'direction': direction})) }}">Cage Number</a></th>
                         <th>Care</th>
                         <th>Show</th>
                         <th>Edit</th>

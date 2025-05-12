@@ -4,18 +4,32 @@
 
 {% block body %}
 <div class="table-container">
-    <h2>User index</h2>
+    <h2>Users</h2>
+    {{ form_start(form, {'method': 'GET'}) }}
+            <div class="filters">
+            <div class="form-group">
+                {{ form_row(form.userName, {'attr': {'value': app.request.query.get('userName') ?? ''}}) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.userEmail, {'attr': {'value': app.request.query.get('userEmail') ?? ''}}) }}
+            </div>
+            <div class="form-group">
+                <button class="btn" type="submit">Filter</button>
+            </div>
+            </div>
+        {{ form_end(form) }}
     <div class="table-con">
     <table class="table">
         <thead>
             <tr>
                 {% set direction = currentDirection == 'asc' ? 'desc' : 'asc' %}
+                {% set baseParams = form.vars.value|default({})|merge(app.request.query.all|default({})) %}
 
-                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'id', 'direction': direction}) }}">Id</a></th>
-                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userName', 'direction': direction}) }}">User Name</a></th>
-                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userEmail', 'direction': direction}) }}">User Email</a></th>
-                {# <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userPassword', 'direction': direction}) }}">User Password</a></th> #}
-                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userRole', 'direction': direction}) }}">User Role</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'id', 'direction': direction})) }}">Id</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'userName', 'direction': direction})) }}">User Name</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'userEmail', 'direction': direction})) }}">User Email</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), baseParams|merge({'sort': 'userRole', 'direction': direction})) }}">User Role</a></th>
+
                 <th>Show</th>
                 <th>Edit</th>
             </tr>

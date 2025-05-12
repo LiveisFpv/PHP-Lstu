@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserForm;
+use App\Form\UserFilterType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,19 +17,24 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     #[Route(name: 'app_user_index', methods: ['GET'])]
-    public function index(Request $request,UserRepository $userRepository): Response
+    public function index(Request $request, UserRepository $userRepository): Response
     {
+        $form = $this->createForm(UserFilterType::class);
+        $form->handleRequest($request);
+        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+
         $sort = $request->query->get('sort', 'id');
         $direction = $request->query->get('direction', 'asc');
 
-        $order = [$sort => $direction];
+        $users = $userRepository->findByFiltersAndSort($filters, $sort, $direction);
 
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findBy([], $order),
-            'currentSort' => $sort,
+            'form' => $form->createView(),
+            'users' => $users,
             'currentDirection' => $direction,
         ]);
     }
+
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

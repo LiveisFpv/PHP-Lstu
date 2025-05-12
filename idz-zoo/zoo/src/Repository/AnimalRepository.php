@@ -16,6 +16,42 @@ class AnimalRepository extends ServiceEntityRepository
         parent::__construct($registry, Animal::class);
     }
 
+    public function findByFiltersAndSort(array $filters, string $sort, string $direction)
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->leftJoin('a.care', 'c')
+            ->addSelect('c'); 
+
+        if (!empty($filters['animalName'])) {
+            $queryBuilder->andWhere('c.animalName LIKE :animalName')
+                ->setParameter('animalName', '%' . $filters['animalName'] . '%');
+        }
+
+        if (!empty($filters['animalGender'])) {
+            $queryBuilder->andWhere('a.animalGender = :animalGender')
+                ->setParameter('animalGender', $filters['animalGender']);
+        }
+
+        if (!empty($filters['animalAge'])) {
+            $queryBuilder->andWhere('a.animalAge = :animalAge')
+                ->setParameter('animalAge', $filters['animalAge']);
+        }
+
+        $allowedFields = ['animalName', 'animalGender', 'animalAge', 'animalCage'];
+        if (in_array($sort, $allowedFields)) {
+            if ($sort === 'animalName'){
+                $queryBuilder->orderBy("c.$sort", $direction === 'desc' ? 'DESC' : 'ASC');
+            }
+            else{
+                $queryBuilder->orderBy("a.$sort", $direction === 'desc' ? 'DESC' : 'ASC');
+            }
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Animal[] Returns an array of Animal objects
 //     */

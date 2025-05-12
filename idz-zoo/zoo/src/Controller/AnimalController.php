@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Animal;
 use App\Entity\Care;
 use App\Form\AnimalForm;
+use App\Form\AnimalFilterType;
 use App\Repository\AnimalRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +17,22 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AnimalController extends AbstractController
 {
     #[Route(name: 'app_animal_index', methods: ['GET'])]
-    public function index(AnimalRepository $animalRepository): Response
+    public function index(Request $request, AnimalRepository $animalRepository): Response
     {
+        $form = $this->createForm(AnimalFilterType::class);
+        $form->handleRequest($request);
+
+        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+
+        $sort = $request->query->get('sort', 'animalName');
+        $direction = $request->query->get('direction', 'asc');
+
+        $animals = $animalRepository->findByFiltersAndSort($filters, $sort, $direction);
+
         return $this->render('animal/index.html.twig', [
-            'animals' => $animalRepository->findAll(),
+            'form' => $form->createView(),
+            'animals' => $animals,
+            'currentDirection' => $direction,
         ]);
     }
 
