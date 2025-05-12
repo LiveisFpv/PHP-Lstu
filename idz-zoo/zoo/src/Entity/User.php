@@ -22,13 +22,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $userName = null;
 
     #[ORM\Column(length: 255, unique: true)]
-    #[Assert\NotBlank]
-    #[Assert\Email]
     private ?string $userEmail = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 6, minMessage: "Password should be at least {{ limit }} characters")]
     private ?string $userPassword = null;
 
     #[ORM\Column]
