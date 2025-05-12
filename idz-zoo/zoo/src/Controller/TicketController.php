@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\PdfGenerator;
 use App\Entity\Ticket;
 use App\Form\TicketForm;
 use App\Form\TicketFilterType;
@@ -11,10 +12,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Fawno\FPDF\FawnoFPDF;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
 {
+
     #[Route(name: 'app_ticket_index', methods: ['GET'])]
     public function index(Request $request,TicketRepository $ticketRepository): Response
     {
@@ -52,9 +55,41 @@ final class TicketController extends AbstractController
             return $this->render('ticket/index.html.twig', [
                 'tickets' => $tickets,
             ]);
-        }
+        }   
+    }
 
-        
+    #[Route('/pdf', name: 'app_ticket_generate_pdf', methods: ['GET'])]
+    public function pdf(Request $request,TicketRepository $ticketRepository): Response
+    {
+        $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $form = $this->createForm(TicketFilterType::class);
+            $form->handleRequest($request);
+            $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+            $sort = $request->query->get('sort', 'id');
+            $direction = $request->query->get('direction', 'asc');
+            $tickets = $ticketRepository->findByFiltersAndSort($filters, $sort, $direction);
+        } else {
+            $email = $user?->getUserIdentifier();
+            if (!$email) {
+                $tickets = [];
+            } else {
+                $currentDate = new \DateTime();
+                $oneWeekAgo = (clone $currentDate)->modify('-1 week');
+                $tickets = $ticketRepository->createQueryBuilder('t')
+                ->where('t.userEmail = :email')
+                ->andWhere('t.ticketDate >= :oneWeekAgo')
+                ->setParameter('email', $email)
+                ->setParameter('oneWeekAgo', $oneWeekAgo)
+                ->orderBy('t.ticketDate', 'ASC')
+                ->addOrderBy('t.ticketTime', 'ASC')
+                ->getQuery()
+                ->getResult();
+            }
+        }
+        PdfGenerator::generatePdf($tickets);
+        return new Response('', Response::HTTP_OK);
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]

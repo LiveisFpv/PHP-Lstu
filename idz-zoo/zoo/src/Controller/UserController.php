@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\UserPdfGenerator;
 use App\Entity\User;
 use App\Form\UserForm;
 use App\Form\UserFilterType;
@@ -33,6 +34,22 @@ final class UserController extends AbstractController
             'users' => $users,
             'currentDirection' => $direction,
         ]);
+    }
+
+    #[Route('/pdf', name: 'app_user_generate_pdf', methods: ['GET'])]
+    public function pdf(Request $request, UserRepository $userRepository): Response
+    {
+        $form = $this->createForm(UserFilterType::class);
+        $form->handleRequest($request);
+        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+
+        $sort = $request->query->get('sort', 'id');
+        $direction = $request->query->get('direction', 'asc');
+
+        $users = $userRepository->findByFiltersAndSort($filters, $sort, $direction);
+
+        UserPdfGenerator::generatePdf($users);
+        return new Response('', Response::HTTP_OK);
     }
 
 

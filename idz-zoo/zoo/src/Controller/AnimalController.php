@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\AnimalPdfGenerator;
 use App\Entity\Animal;
 use App\Entity\Care;
 use App\Form\AnimalForm;
@@ -34,6 +35,23 @@ final class AnimalController extends AbstractController
             'animals' => $animals,
             'currentDirection' => $direction,
         ]);
+    }
+
+    #[Route('/pdf',name: 'app_animal_generate_pdf', methods: ['GET'])]
+    public function pdf(Request $request, AnimalRepository $animalRepository): Response
+    {
+        $form = $this->createForm(AnimalFilterType::class);
+        $form->handleRequest($request);
+
+        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+
+        $sort = $request->query->get('sort', 'animalName');
+        $direction = $request->query->get('direction', 'asc');
+
+        $animals = $animalRepository->findByFiltersAndSort($filters, $sort, $direction);
+
+        AnimalPdfGenerator::generatePdf($animals);
+        return new Response('', Response::HTTP_OK);
     }
 
     #[Route('/new', name: 'app_animal_new', methods: ['GET', 'POST'])]

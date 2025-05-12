@@ -27,6 +27,12 @@
         </div>
     {{ form_end(form) }}
 
+    <form method="GET" action="{{ path('app_ticket_generate_pdf', app.request.query.all) }}" target="_blank" rel="noopener noreferrer">
+        <div class="form-group">
+            <button class="btn" type="submit">Generate PDF</button>
+        </div>
+    </form>
+
     <div class="table-con">
         <table class="table">
             <thead>
