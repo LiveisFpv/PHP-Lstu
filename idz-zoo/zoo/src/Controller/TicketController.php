@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\PdfGenerator;
+use App\Service\TicketPdfGenerator;
 use App\Entity\Ticket;
 use App\Form\TicketForm;
 use App\Form\TicketFilterType;
@@ -59,14 +59,21 @@ final class TicketController extends AbstractController
     }
 
     #[Route('/pdf', name: 'app_ticket_generate_pdf', methods: ['GET'])]
-    public function pdf(Request $request,TicketRepository $ticketRepository): Response
+    public function pdf(Request $request, TicketRepository $ticketRepository): Response
     {
         $user = $this->getUser();
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $form = $this->createForm(TicketFilterType::class);
-            $form->handleRequest($request);
-            $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+            $filters = [];
+            if ($request->query->has('filters')) {
+                $rawFilters = $request->query->all()['filters'];
+                foreach ($rawFilters as $key => $value) {
+                    if ($value !== null && $value !== '') {
+                        $filters[$key] = $value;
+                    }
+                }
+            }
+            
             $sort = $request->query->get('sort', 'id');
             $direction = $request->query->get('direction', 'asc');
             $tickets = $ticketRepository->findByFiltersAndSort($filters, $sort, $direction);
@@ -88,8 +95,14 @@ final class TicketController extends AbstractController
                 ->getResult();
             }
         }
-        PdfGenerator::generatePdf($tickets);
-        return new Response('', Response::HTTP_OK);
+        
+        $pdfContent = TicketPdfGenerator::generatePdf($tickets);
+        
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="tickets.pdf"',
+        ]);
+        
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]

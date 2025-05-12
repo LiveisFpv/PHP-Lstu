@@ -6,7 +6,7 @@ use Fawno\FPDF\FawnoFPDF;
 
 class AnimalPdfGenerator
 {
-    public static function generatePdf(array $animals): void
+    public static function generatePdf(array $animals): string
     {
         function toWin1251($text): string {
             return iconv('UTF-8', 'windows-1251//IGNORE', $text);
@@ -39,6 +39,6 @@ class AnimalPdfGenerator
             $pdf->Ln();
         }
     
-        $pdf->Output('I', 'animals.pdf');
+        return $pdf->Output('S');
     }
 }

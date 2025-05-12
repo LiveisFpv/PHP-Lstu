@@ -8,21 +8,32 @@
     {{ form_start(form, {'method': 'GET'}) }}
             <div class="filters">
             <div class="form-group">
-                {{ form_row(form.userName, {'attr': {'value': app.request.query.get('userName') ?? ''}}) }}
+                {{ form_row(form.userName) }}
             </div>
             <div class="form-group">
-                {{ form_row(form.userEmail, {'attr': {'value': app.request.query.get('userEmail') ?? ''}}) }}
+                {{ form_row(form.userEmail) }}
             </div>
             <div class="form-group">
                 <button class="btn" type="submit">Filter</button>
             </div>
             </div>
         {{ form_end(form) }}
-    <form method="GET" action="{{ path('app_user_generate_pdf', app.request.query.all) }}" target="_blank" rel="noopener noreferrer">
+
+        {% set pdfParams = app.request.query.all %}
+        {% if form.vars.value is not empty %}
+            {% set filters = {} %}
+            {% for field, value in form.vars.value %}
+                {% if value is not null %}
+                    {% set filters = filters|merge({(field): value}) %}
+                {% endif %}
+            {% endfor %}
+            {% set pdfParams = pdfParams|merge({'filters': filters}) %}
+        {% endif %}
+        
         <div class="form-group">
-            <button class="btn" type="submit">Generate PDF</button>
+            <a href="{{ path('app_user_generate_pdf', pdfParams) }}" class="btn" target="_blank">Generate PDF</a>
         </div>
-    </form>
+
     <div class="table-con">
     <table class="table">
         <thead>

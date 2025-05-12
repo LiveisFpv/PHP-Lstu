@@ -4,9 +4,9 @@ namespace App\Service;
 
 use Fawno\FPDF\FawnoFPDF;
 
-class PdfGenerator
+class TicketPdfGenerator
 {
-    public static function generatePdf(array $tickets): void
+    public static function generatePdf(array $tickets): string
     {
         function toWin1251($text): string {
             return iconv('UTF-8', 'windows-1251//IGNORE', $text);
@@ -37,6 +37,6 @@ class PdfGenerator
             $pdf->Ln();
         }
 
-        $pdf->Output('I', 'tickets.pdf');
+        return $pdf->Output('S');
     }
 }

@@ -27,11 +27,20 @@
         </div>
     {{ form_end(form) }}
 
-    <form method="GET" action="{{ path('app_ticket_generate_pdf', app.request.query.all) }}" target="_blank" rel="noopener noreferrer">
-        <div class="form-group">
-            <button class="btn" type="submit">Generate PDF</button>
-        </div>
-    </form>
+    {% set pdfParams = app.request.query.all %}
+    {% if form.vars.value is not empty %}
+        {% set filters = {} %}
+        {% for field, value in form.vars.value %}
+            {% if value is not null %}
+                {% set filters = filters|merge({(field): value}) %}
+            {% endif %}
+        {% endfor %}
+        {% set pdfParams = pdfParams|merge({'filters': filters}) %}
+    {% endif %}
+    
+    <div class="form-group">
+        <a href="{{ path('app_ticket_generate_pdf', pdfParams) }}" class="btn" target="_blank">Generate PDF</a>
+    </div>
 
     <div class="table-con">
         <table class="table">

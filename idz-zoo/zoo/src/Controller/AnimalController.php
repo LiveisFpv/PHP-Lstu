@@ -37,21 +37,30 @@ final class AnimalController extends AbstractController
         ]);
     }
 
-    #[Route('/pdf',name: 'app_animal_generate_pdf', methods: ['GET'])]
+    #[Route('/pdf', name: 'app_animal_generate_pdf', methods: ['GET'])]
     public function pdf(Request $request, AnimalRepository $animalRepository): Response
     {
-        $form = $this->createForm(AnimalFilterType::class);
-        $form->handleRequest($request);
-
-        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+        $filters = [];
+        if ($request->query->has('filters')) {
+            $rawFilters = $request->query->all()['filters'];
+            foreach ($rawFilters as $key => $value) {
+                if ($value !== null && $value !== '') {
+                    $filters[$key] = $value;
+                }
+            }
+        }
 
         $sort = $request->query->get('sort', 'animalName');
         $direction = $request->query->get('direction', 'asc');
 
         $animals = $animalRepository->findByFiltersAndSort($filters, $sort, $direction);
 
-        AnimalPdfGenerator::generatePdf($animals);
-        return new Response('', Response::HTTP_OK);
+        $pdfContent = AnimalPdfGenerator::generatePdf($animals);
+
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="animals.pdf"',
+        ]);
     }
 
     #[Route('/new', name: 'app_animal_new', methods: ['GET', 'POST'])]

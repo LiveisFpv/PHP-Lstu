@@ -39,19 +39,28 @@ final class UserController extends AbstractController
     #[Route('/pdf', name: 'app_user_generate_pdf', methods: ['GET'])]
     public function pdf(Request $request, UserRepository $userRepository): Response
     {
-        $form = $this->createForm(UserFilterType::class);
-        $form->handleRequest($request);
-        $filters = $form->isSubmitted() && $form->isValid() ? $form->getData() : [];
+        $filters = [];
+        if ($request->query->has('filters')) {
+            $rawFilters = $request->query->all()['filters'];
+            foreach ($rawFilters as $key => $value) {
+                if ($value !== null && $value !== '') {
+                    $filters[$key] = $value;
+                }
+            }
+        }
 
         $sort = $request->query->get('sort', 'id');
         $direction = $request->query->get('direction', 'asc');
 
         $users = $userRepository->findByFiltersAndSort($filters, $sort, $direction);
 
-        UserPdfGenerator::generatePdf($users);
-        return new Response('', Response::HTTP_OK);
-    }
+        $pdfContent = UserPdfGenerator::generatePdf($users);
 
+        return new Response($pdfContent, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="users.pdf"',
+        ]);
+    }
 
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

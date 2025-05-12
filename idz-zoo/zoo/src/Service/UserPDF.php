@@ -6,7 +6,7 @@ use Fawno\FPDF\FawnoFPDF;
 
 class UserPdfGenerator
 {
-    public static function generatePdf(array $users): void
+    public static function generatePdf(array $users): string
     {
         function toWin1251($text): string {
             return iconv('UTF-8', 'windows-1251//IGNORE', $text);
@@ -34,7 +34,7 @@ class UserPdfGenerator
             $pdf->Cell(60, 10, toWin1251(implode(', ', $user->getUserRole())), 1);
             $pdf->Ln();
         }
-    
-        $pdf->Output('I', 'users.pdf');
-}
+
+        return $pdf->Output('S');
+    }
 }
