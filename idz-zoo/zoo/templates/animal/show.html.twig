@@ -12,25 +12,29 @@
         <div class="table-con">
             <table class="table">
                 <tbody>
-                    <tr>
+                    {# <tr>
                         <th>Id</th>
                         <td>{{ animal.id }}</td>
+                    </tr> #}
+                    <tr>
+                        <th>Animal Name</th>
+                        <td>{{ animal.care.animalName }}</td>
                     </tr>
                     <tr>
-                        <th>AnimalName</th>
-                        <td>{{ animal.animalName }}</td>
-                    </tr>
-                    <tr>
-                        <th>AnimalGender</th>
+                        <th>Animal Gender</th>
                         <td>{{ animal.animalGender }}</td>
                     </tr>
                     <tr>
-                        <th>AnimalAge</th>
+                        <th>Animal Age</th>
                         <td>{{ animal.animalAge }}</td>
                     </tr>
                     <tr>
-                        <th>AnimalCage</th>
+                        <th>Animal Cage</th>
                         <td>{{ animal.animalCage }}</td>
+                    </tr>
+                    <tr>
+                        <th>Care</th>
+                        <td>{{ animal.care.careType }}</td>
                     </tr>
                 </tbody>
             </table>

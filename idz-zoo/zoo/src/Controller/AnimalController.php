@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Animal;
+use App\Entity\Care;
 use App\Form\AnimalForm;
 use App\Repository\AnimalRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,10 +27,19 @@ final class AnimalController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $animal = new Animal();
-        $form = $this->createForm(AnimalForm::class, $animal);
+        $careAnimals = $entityManager->getRepository(Care::class)->findAll();
+        $animalChoices = [];
+        foreach ($careAnimals as $care) {
+            $animalChoices[$care->getAnimalName()] = $care;
+        }
+        $form = $this->createForm(AnimalForm::class, $animal, [
+            'animal_choices' => $animalChoices,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $care = $entityManager->getRepository(Care::class)->find($animal->getCare());
+            $animal->setCare($care);
             $entityManager->persist($animal);
             $entityManager->flush();
 

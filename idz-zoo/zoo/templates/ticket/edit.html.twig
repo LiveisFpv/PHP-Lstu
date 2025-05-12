@@ -6,7 +6,27 @@
 <div class="form-container">
     <h2>Edit Ticket</h2>
 
-    {{ include('ticket/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ form_start(form) }}
+        <div class="form-group">
+        {{ form_row(form.ticketDate, {
+            'attr': {
+                'min': "now"|date("Y-m-d"),
+            }
+        }) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.ticketTime) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.ticketCost) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.userEmail) }}
+        </div>
+    {{ form_end(form) }}
     <div class="form-group">
         <a href="{{ path('app_ticket_index') }}">Back to list</a>
     </div>

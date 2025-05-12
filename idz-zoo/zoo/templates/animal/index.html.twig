@@ -3,36 +3,40 @@
 {% block title %}Animal index{% endblock %}
 
 {% block body %}
+    {% if 'ROLE_ADMIN' in app.user.roles %}
     <div class="table-container">
-        <h2>Animal index</h2>
+        <h2>Animals</h2>
         <div class="table-con">
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>AnimalName</th>
-                        <th>AnimalGender</th>
-                        <th>AnimalAge</th>
-                        <th>AnimalCage</th>
-                        <th>actions</th>
+                        <th>Animal Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Cage Number</th>
+                        <th>Care</th>
+                        <th>Show</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for animal in animals %}
                     <tr>
-                        <td>{{ animal.id }}</td>
-                        <td>{{ animal.animalName }}</td>
+                        <td>{{ animal.care.animalName }}</td>
                         <td>{{ animal.animalGender }}</td>
                         <td>{{ animal.animalAge }}</td>
                         <td>{{ animal.animalCage }}</td>
+                        <td>{{ animal.care.careType }}</td>
                         <td>
-                            <a href="{{ path('app_animal_show', {'id': animal.id}) }}">Show</a>
-                            <a href="{{ path('app_animal_edit', {'id': animal.id}) }}">Edit</a>
+                            <a href="{{ path('app_animal_show', {'id': animal.id}) }}" class="btn-link">Show</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_animal_edit', {'id': animal.id}) }}" class="btn-link">Edit</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="6">no records found</td>
+                        <td colspan="7">no records found</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -42,4 +46,26 @@
             <a href="{{ path('app_animal_new') }}">Create new</a>
         </div>
     </div>
+    {% else %}
+
+    {% block stylesheets %}
+    {% endblock %}
+    <section class="featured-animals">
+        <h2>Наши Питомцы</h2>
+        
+        <div class="animals-grid">
+        {% for animal in animals %}
+            <div class="animal-card">
+                <img src="/images/animal-icon.svg" class="animal-img">
+                <h3>{{ animal.care.animalName }}</h3>
+                <p>Пол: {{ animal.animalGender }}</p>
+                <p>Возраст: {{ animal.animalAge }}</p>
+                <p>Место нахождения(клетка): {{ animal.animalCage }}</p>
+                <p>Как ухаживать: {{ animal.care.careType }}</p>
+            </div>
+        {% endfor %}
+        </div>
+        
+    </section>
+    {% endif %}
 {% endblock %}

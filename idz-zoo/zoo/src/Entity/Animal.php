@@ -14,10 +14,6 @@ class Animal
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
-    private ?string $animalName = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $animalGender = null;
 
@@ -27,21 +23,23 @@ class Animal
     #[ORM\Column(length: 255, nullable: true)]
     private ?int $animalCage = null;
 
+    #[ORM\ManyToOne(targetEntity: Care::class, inversedBy: 'animals')]
+    #[ORM\JoinColumn(name: 'care_id', referencedColumnName: 'id', nullable: true)]
+    private ?Care $care = null;
+
+    public function getCare(): ?Care
+    {
+        return $this->care;
+    }
+
+    public function setCare(?Care $care): void
+    {
+        $this->care = $care;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAnimalName(): ?string
-    {
-        return $this->animalName;
-    }
-
-    public function setAnimalName(string $animalName): static
-    {
-        $this->animalName = $animalName;
-
-        return $this;
     }
 
     public function getAnimalGender(): ?string

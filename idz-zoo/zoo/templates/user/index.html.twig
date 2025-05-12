@@ -9,12 +9,15 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>UserName</th>
-                <th>UserEmail</th>
-                <th>UserPassword</th>
-                <th>UserRole</th>
-                <th>actions</th>
+                {% set direction = currentDirection == 'asc' ? 'desc' : 'asc' %}
+
+                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'id', 'direction': direction}) }}">Id</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userName', 'direction': direction}) }}">User Name</a></th>
+                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userEmail', 'direction': direction}) }}">User Email</a></th>
+                {# <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userPassword', 'direction': direction}) }}">User Password</a></th> #}
+                <th><a href="{{ path(app.request.attributes.get('_route'), {'sort': 'userRole', 'direction': direction}) }}">User Role</a></th>
+                <th>Show</th>
+                <th>Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -23,11 +26,13 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.userName }}</td>
                 <td>{{ user.userEmail }}</td>
-                <td>{{ user.userPassword }}</td>
+                {# <td>{{ user.userPassword }}</td> #}
                 <td>{{ user.userRole|join(', ') }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">Show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Edit</a>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn-link">Show</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn-link">Edit</a>
                 </td>
             </tr>
         {% else %}

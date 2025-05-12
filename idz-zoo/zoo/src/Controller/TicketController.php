@@ -17,8 +17,23 @@ final class TicketController extends AbstractController
     #[Route(name: 'app_ticket_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
+        $user = $this->getUser();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $tickets = $ticketRepository->findAll();
+        } else {
+            $email = $user?->getUserIdentifier();
+            if (!$email) {
+                $tickets = [];
+            } else {
+                $tickets = $ticketRepository->findBy(
+                    ['userEmail' => $email],
+                );
+            }
+        }
+
         return $this->render('ticket/index.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
+            'tickets' => $tickets,
         ]);
     }
 

@@ -18,15 +18,20 @@ class AnimalForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('animalName', TextType::class, [
-                'constraints' => [
-                    new NotBlank(['message' => 'Animal name is required']),
-                ],
+            ->add('care', ChoiceType::class, [
+                'choices' => $options['animal_choices'],  // передаем объекты Care
+                'choice_label' => function ($care) {
+                    return $care->getAnimalName();  // Отображаем имя животного для выбора
+                },
+                'choice_value' => function ($care) {
+                    return $care ? $care->getId() : null;  // Отправляем ID объекта Care
+                },
+                'required' => true,  // Сделать выбор обязательным
             ])
             ->add('animalGender', ChoiceType::class, [
                 'choices' => [
-                    'Male' => 'male',
-                    'Female' => 'female',
+                    'Male' => 'Male',
+                    'Female' => 'Female',
                 ],
                 'constraints' => [
                     new NotBlank(['message' => 'Gender is required']),
@@ -57,6 +62,7 @@ class AnimalForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Animal::class,
+            'animal_choices' => [],
         ]);
     }
 }

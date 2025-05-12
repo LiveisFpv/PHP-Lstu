@@ -4,11 +4,115 @@
 
 {% block body %}
     <div class="form-container">
+
     <h2>Create new Ticket</h2>
 
-    {{ include('ticket/_form.html.twig') }}
+    {{ form_start(form) }}
+        <div class="form-group">
+        {{ form_row(form.ticketDate, {
+            'attr': {
+                'min': "now"|date("Y-m-d"),
+            }
+        }) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.ticketTime) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.ticketCost) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.userEmail) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.cardNumber, {
+            'attr': {
+                'placeholder': '1234 5678 9012 3456',
+                'maxlength': '19',
+            }
+        }) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.cardExpiry, {
+            'attr': {
+                'placeholder': 'MM/YY',
+                'maxlength': '5'
+            }
+        }) }}
+        </div>
+
+        <div class="form-group">
+        {{ form_row(form.cardCVV, {
+        }) }}
+        </div>
+        
+        <div class="form-group">
+            <button class="btn btn-primary">Buy Ticket</button>
+        </div>
+    {{ form_end(form) }}
+
     <div class="form-group">
         <a href="{{ path('app_ticket_index') }}">Back to list</a>
     </div>
-    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const expiry = document.querySelector('[name$="[cardExpiry]"]');
+        if (expiry) {
+            expiry.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/[^\d]/g, '');
+                if (value.length > 2) {
+                    value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                }
+                e.target.value = value;
+            });
+        }
+
+        const date = document.querySelector('[name$="[ticketDate]"]');
+        if (date) {
+            const today = new Date().toISOString().split('T')[0];
+            date.setAttribute("min", today);
+        }
+
+        const timeInput = document.querySelector('[name$="[ticketTime]"]');
+        if (timeInput) {
+            timeInput.setAttribute("min", "09:00");
+            timeInput.setAttribute("max", "17:00");
+            timeInput.setAttribute("step", "900");
+
+            timeInput.addEventListener("change", (e) => {
+                const time = e.target.value;
+                const [hours, minutes] = time.split(":").map(Number);
+
+                const isValid = (hours > 9 || (hours === 9 && minutes >= 0)) &&
+                                (hours < 17 || (hours === 17 && minutes === 0)) &&
+                                (minutes % 15 === 0);
+
+                if (!isValid) {
+                    alert("Выберите время с 09:00 до 17:00 с шагом в 15 минут.");
+                    e.target.value = '';
+                }
+            });
+        }
+
+        const card = document.querySelector('[name$="[cardNumber]"]');
+        if (card) {
+            card.addEventListener("input", (e) => {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.substring(0, 16);
+                let formatted = value.match(/.{1,4}/g);
+                e.target.value = formatted ? formatted.join(' ') : '';
+            });
+        }
+    });
+</script>
+
+
 {% endblock %}
+

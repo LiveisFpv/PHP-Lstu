@@ -9,21 +9,22 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>CareType</th>
-                        <th>AnimalName</th>
-                        <th>actions</th>
+                        <th>Care Type</th>
+                        <th>Animal Name</th>
+                        <th>Show</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for care in cares %}
                     <tr>
-                        <td>{{ care.id }}</td>
                         <td>{{ care.careType }}</td>
                         <td>{{ care.animalName }}</td>
                         <td>
-                            <a href="{{ path('app_care_show', {'id': care.id}) }}">Show</a>
-                            <a href="{{ path('app_care_edit', {'id': care.id}) }}">Edit</a>
+                            <a href="{{ path('app_care_show', {'id': care.id}) }}" class="btn-link">Show</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_care_edit', {'id': care.id}) }}" class="btn-link">Edit</a>
                         </td>
                     </tr>
                 {% else %}
